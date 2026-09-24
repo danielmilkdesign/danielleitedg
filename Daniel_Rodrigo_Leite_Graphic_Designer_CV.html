@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Currículo — Daniel Rodrigo Andrade Leite | Diretor de Arte & Designer Gráfico</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0f172a;
+      --accent: #ff432a;
+      --accent-dark: #d9321c;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --bg-subtle: #f8fafc;
+      --font-heading: 'Space Grotesk', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+      --font-mono: 'Space Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--text);
+      background-color: #f1f5f9;
+      line-height: 1.55;
+      font-size: 13.5px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .cv-page {
+      max-width: 820px;
+      margin: 2rem auto;
+      background: #ffffff;
+      padding: 3.2rem 3.5rem;
+      box-shadow: 0 10px 35px rgba(0,0,0,0.06);
+      border-radius: 4px;
+    }
+
+    header {
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 1.5rem;
+      margin-bottom: 1.8rem;
+    }
+
+    .header-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    h1 {
+      font-family: var(--font-heading);
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--primary);
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      line-height: 1.15;
+    }
+
+    .subtitle {
+      font-family: var(--font-heading);
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-top: 0.35rem;
+    }
+
+    .meta-contact {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem 1.4rem;
+      margin-top: 1rem;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .meta-contact a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    .meta-contact a:hover {
+      color: var(--accent);
+    }
+
+    .section {
+      margin-bottom: 1.8rem;
+    }
+
+    .section-title {
+      font-family: var(--font-heading);
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.85rem;
+      padding-bottom: 0.35rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-title::before {
+      content: '//';
+      color: var(--accent);
+      font-family: var(--font-mono);
+      font-weight: 700;
+    }
+
+    p {
+      margin-bottom: 0.6rem;
+      color: #334155;
+    }
+
+    .highlight-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.6rem 1.2rem;
+      margin: 0.8rem 0;
+    }
+
+    .highlight-item {
+      background: var(--bg-subtle);
+      border-left: 3px solid var(--accent);
+      padding: 0.55rem 0.8rem;
+      font-size: 12px;
+      color: #334155;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .highlight-item strong {
+      color: var(--primary);
+    }
+
+    .experience-item {
+      margin-bottom: 1.35rem;
+      page-break-inside: avoid;
+    }
+
+    .exp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.25rem;
+    }
+
+    .exp-role {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .exp-company {
+      color: var(--accent-dark);
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    .exp-period {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      color: var(--text-muted);
+      font-weight: 600;
+      background: var(--bg-subtle);
+      padding: 0.15rem 0.5rem;
+      border-radius: 3px;
+      border: 1px solid var(--border);
+    }
+
+    ul.exp-bullets {
+      list-style-type: none;
+      padding-left: 0;
+      margin-top: 0.4rem;
+    }
+
+    ul.exp-bullets li {
+      position: relative;
+      padding-left: 1.15rem;
+      margin-bottom: 0.35rem;
+      color: #334155;
+      font-size: 12.8px;
+    }
+
+    ul.exp-bullets li::before {
+      content: '▪';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-size: 14px;
+      top: -1px;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.8rem 1.4rem;
+    }
+
+    .skill-block h4 {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 0.25rem;
+    }
+
+    .skill-block p {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.45;
+      margin-bottom: 0;
+    }
+
+    .education-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .edu-item h4 {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .edu-item span {
+      font-size: 11.8px;
+      color: var(--text-muted);
+      display: block;
+    }
+
+    .download-bar {
+      position: sticky;
+      top: 0;
+      background: #0f172a;
+      color: #ffffff;
+      padding: 0.8rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      font-size: 13px;
+    }
+
+    .btn-print {
+      background: var(--accent);
+      color: #ffffff;
+      border: none;
+      padding: 0.5rem 1.2rem;
+      font-family: var(--font-heading);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      border-radius: 3px;
+      transition: background 0.2s;
+    }
+
+    .btn-print:hover {
+      background: #ff5e48;
+    }
+
+    @media print {
+      body {
+        background: #ffffff;
+      }
+      .download-bar {
+        display: none !important;
+      }
+      .cv-page {
+        box-shadow: none;
+        padding: 0;
+        margin: 0;
+        max-width: 100%;
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="download-bar">
+    <div><strong>Daniel Rodrigo Andrade Leite</strong> — Currículo Oficial (Direção de Arte & Design Gráfico)</div>
+    <button class="btn-print" onclick="window.print()">Imprimir / Salvar PDF ↗</button>
+  </div>
+
+  <main class="cv-page">
+    
+    <!-- Header -->
+    <header>
+      <div class="header-title-row">
+        <div>
+          <h1>Daniel Rodrigo Andrade Leite</h1>
+          <div class="subtitle">Diretor de Arte · Designer Gráfico Sênior · Identidade Visual & Design Estratégico</div>
+        </div>
+      </div>
+
+      <div class="meta-contact">
+        <span>📍 Manaus, AM — Brasil (Disponível para Remoto / Híbrido)</span>
+        <span>📱 <a href="https://api.whatsapp.com/send/?phone=5592992552746" target="_blank">(92) 99255-2746</a></span>
+        <span>💼 <a href="https://linkedin.com/in/daniel-rodrigo-leite" target="_blank">linkedin.com/in/daniel-rodrigo-leite</a></span>
+        <span>🎨 <a href="https://behance.net/danielrodrigo" target="_blank">behance.net/danielrodrigo</a></span>
+        <span>🌐 <a href="https://danielleite.vercel.app/" target="_blank">danielleite.vercel.app</a></span>
+      </div>
+    </header>
+
+    <!-- Resumo Profissional -->
+    <section class="section">
+      <h2 class="section-title">Resumo Profissional</h2>
+      <p>
+        Designer Gráfico e Diretor de Arte com mais de <strong>14 anos de trajetória sólida</strong> na criação de identidades visuais de alto impacto, direção criativa de campanhas comerciais, design editorial e comunicação estratégica para marcas B2B e B2C. 
+      </p>
+      <p>
+        Minha atuação combina o rigor técnico da tipografia suíça e da direção de arte publicitária com a disciplina e visão de métricas do <strong>Product Design & UX/UI</strong> (no qual atuo desde 2020). Essa sinergia garante que cada projeto não seja apenas visualmente sofisticado, mas funcional, legível e orientado à conversão real e autoridade de marca.
+      </p>
+
+      <div class="highlight-grid">
+        <div class="highlight-item">
+          <strong>Branding & Key Visual:</strong> Criação de manuais de marca e universos visuais para clientes corporativos, varejo de luxo e gastronomia.
+        </div>
+        <div class="highlight-item">
+          <strong>Design Editorial & Social B2B:</strong> Carrosséis e infográficos de alta densidade cognitiva para retenção e engajamento qualificado.
+        </div>
+        <div class="highlight-item">
+          <strong>Campanhas & Performance:</strong> Mais de 30 campanhas multissetoriais com peças integradas (digital, PDV e grandes formatos).
+        </div>
+        <div class="highlight-item">
+          <strong>Visão de Produto & UX:</strong> Domínio de hierarquia visual, design tokens e sistemas escaláveis aplicados ao design gráfico.
+        </div>
+      </div>
+    </section>
+
+    <!-- Experiência Profissional -->
+    <section class="section">
+      <h2 class="section-title">Experiência Profissional</h2>
+
+      <!-- Sinergia -->
+      <div class="experience-item">
+        <div class="exp-header">
+          <div>
+            <span class="exp-role">Graphic Designer & Diretor de Arte</span> — <span class="exp-company">Sinergia / Atuação Estratégica</span>
+          </div>
+          <span class="exp-period">2024 — Atual</span>
+        </div>
+        <ul class="exp-bullets">
+          <li>Direção de arte, criação de sistemas de marcas (Branding/Key Visual) e design de conteúdo estratégico de alta densidade cognitiva para empresas B2B e marcas de varejo.</li>
+          <li>Desenvolvimento de narrativas visuais e carrosséis institucionais para redes sociais (LinkedIn/Instagram) traduzindo temas técnicos complexos (como o case <em>CEI Contab</em>) em peças modulares de alta conversão.</li>
+          <li>Criação de identidades visuais completas e embalagens para o segmento gastronômico e turismo sustentável (<em>Hon Café, Marinara, Amazon Ecofishing</em>).</li>
+        </ul>
+      </div>
+
+      <!-- Agência Digi -->
+      <div class="experience-item">
+        <div class="exp-header">
+          <div>
+            <span class="exp-role">Designer de Interfaces & Visual Designer</span> — <span class="exp-company">Agência Digi (Plataforma B2B)</span>
+          </div>
+          <span class="exp-period">Set/2024 — Set/2026</span>
+        </div>
+        <ul class="exp-bullets">
+          <li>Liderança visual e arquitetura de interfaces para plataforma corporativa B2B de incentivos, gamificação e recompensas atendendo a mais de 10 clientes de grande porte.</li>
+          <li>Redesenho de fluxos visuais e telas do produto <em>Incentify</em>, reduzindo em 30% o tempo de navegação em tarefas críticas.</li>
+          <li>Criação de protótipos de alta fidelidade e especificações visuais com rigor estético e padrões escaláveis de componentes.</li>
+        </ul>
+      </div>
+
+      <!-- Garupa & Aliare -->
+      <div class="experience-item">
+        <div class="exp-header">
+          <div>
+            <span class="exp-role">Visual & Product Designer</span> — <span class="exp-company">Garupa & Aliare (Hub Conexa)</span>
+          </div>
+          <span class="exp-period">Nov/2021 — Mai/2024</span>
+        </div>
+        <ul class="exp-bullets">
+          <li>Estruturação e padronização visual de interfaces e Design System, reduzindo em 50% o tempo de criação e desenvolvimento de novos ativos digitais.</li>
+          <li>Desenvolvimento de peças de comunicação institucional, materiais de onboarding e otimização visual de fluxos que aumentaram em 25% a conversão de pagamentos.</li>
+        </ul>
+      </div>
+
+      <!-- Tterra -->
+      <div class="experience-item">
+        <div class="exp-header">
+          <div>
+            <span class="exp-role">Diretor de Arte</span> — <span class="exp-company">Tterra Comunicação</span>
+          </div>
+          <span class="exp-period">2018 — 2020</span>
+        </div>
+        <ul class="exp-bullets">
+          <li>Liderança criativa e desenvolvimento de campanhas publicitárias, marcas e identidades visuais integradas para mais de 15 clientes em múltiplos segmentos (saúde, estética, academia, serviços corporativos).</li>
+          <li>Criação de key visuals conceituais, peças para mídias digitais e impressas, anúncios promocionais de varejo e orientação criativa de equipe.</li>
+        </ul>
+      </div>
+
+      <!-- ULBRA Manaus & Mix Comunicação -->
+      <div class="experience-item">
+        <div class="exp-header">
+          <div>
+            <span class="exp-role">Designer Gráfico</span> — <span class="exp-company">ULBRA Manaus & Mix Comunicação Visual</span>
+          </div>
+          <span class="exp-period">2012 — 2018</span>
+        </div>
+        <ul class="exp-bullets">
+          <li>Criação e diagramação de campanhas institucionais para vestibulares, revistas, manuais, peças promocionais e grandes formatos (outdoors, lonas e ambientação).</li>
+          <li>Fechamento técnico rigoroso de arquivos para pré-impressão, bureau gráfico e tratamento avançado de imagens.</li>
+        </ul>
+      </div>
+
+    </section>
+
+    <!-- Competências Técnicas & Ferramentas -->
+    <section class="section">
+      <h2 class="section-title">Competências Técnicas & Especialidades</h2>
+      <div class="skills-grid">
+        <div class="skill-block">
+          <h4>Direção de Arte & Branding</h4>
+          <p>Identidade Visual, Key Visual (KV), Manuais de Marca, Tipografia Suíça, Teoria Cromática, Composição Visual, Naming e Direção Criativa.</p>
+        </div>
+        <div class="skill-block">
+          <h4>Design Digital & Social Media</h4>
+          <p>Carrosséis Estratégicos, Design Editorial B2B/B2C, Infografia Corporativa, Criativos de Alta Performance, Feeds e Anúncios.</p>
+        </div>
+        <div class="skill-block">
+          <h4>Design Offline & Editorial</h4>
+          <p>Embalagens & Rótulos (Packaging), Diagramação de Revistas e Relatórios, Materiais Promocionais para PDV, Sinalização e Pré-impressão.</p>
+        </div>
+        <div class="skill-block">
+          <h4>Softwares & Tecnologias</h4>
+          <p>Adobe Illustrator, Adobe Photoshop, Figma, Adobe InDesign, Lightroom, Midjourney / IA Generativa, CorelDRAW, Miro e Notion.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Formação e Liderança -->
+    <section class="section" style="margin-bottom: 0;">
+      <h2 class="section-title">Formação Acadêmica & Comunidade</h2>
+      <div class="education-grid">
+        <div class="edu-item">
+          <h4>Tecnólogo em Design Gráfico</h4>
+          <span>UNINORTE (2012 — 2014)</span>
+        </div>
+        <div class="edu-item">
+          <h4>Pós-graduação em Gestão de Design de Interiores</h4>
+          <span>Universidade Nilton Lins (2017 — 2018)</span>
+        </div>
+        <div class="edu-item">
+          <h4>Liderança na Comunidade ManaUX</h4>
+          <span>Líder de Projetos Especiais & Parcerias</span>
+        </div>
+        <div class="edu-item">
+          <h4>Mentor em Hackathons & Educação</h4>
+          <span>Mentoria de equipes criativas e professor de prototipação</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+</body>
+</html>

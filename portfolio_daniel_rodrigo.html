@@ -1,0 +1,1588 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DANIEL RODRIGO — Direção de Arte & Identidade Visual</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="FAVICON DG.png?v=2" />
+  <link rel="icon" type="image/png" sizes="16x16" href="FAVICON DG.png?v=2" />
+  <link rel="apple-touch-icon" href="FAVICON DG.png?v=2" />
+  <link rel="shortcut icon" href="FAVICON DG.png?v=2" type="image/png" />
+  
+  <!-- Fontes: Syne (display brutalista/elegante) & Plus Jakarta Sans (leitura técnica) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Syne:wght@700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg: #0c0d0e;
+      --bg-surface: #141619;
+      --bg-card: #181b1f;
+      --line: #262a30;
+      --line-light: #383e47;
+      --text: #e5e7eb;
+      --text-muted: #848d9a;
+      --accent: #ff432a; /* Laranja editorial de alto impacto */
+      --accent-glow: rgba(255, 67, 42, 0.15);
+      --font-display: 'Syne', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+      --font-mono: 'Space Mono', monospace;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      outline: none;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    body {
+      overflow-x: hidden;
+      cursor: crosshair;
+      background-image: 
+        radial-gradient(circle at 100% 0%, rgba(255, 67, 42, 0.04) 0%, transparent 40%),
+        radial-gradient(circle at 0% 50%, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
+    }
+
+    /* Utilitários & Tipografia */
+    .mono { font-family: var(--font-mono); }
+    .display { font-family: var(--font-display); }
+    
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* Barra Superior / Index Bar */
+    header {
+      border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 0;
+      background: rgba(12, 13, 14, 0.88);
+      backdrop-filter: blur(14px);
+      z-index: 100;
+    }
+
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 0;
+      font-size: 0.82rem;
+      letter-spacing: 0.05em;
+    }
+
+    .brand-mark {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .brand-logo-img {
+      height: 28px;
+      width: auto;
+      display: block;
+      transition: opacity 0.2s ease, transform 0.25s ease;
+    }
+
+    .brand-mark:hover .brand-logo-img {
+      transform: scale(1.02);
+    }
+
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    /* Hero Section: Editorial & Brutalista */
+    .hero-section {
+      padding: 6.5rem 0 4.5rem;
+      border-bottom: 1px solid var(--line);
+      position: relative;
+      overflow: hidden;
+      perspective: 1200px;
+    }
+
+    .hero-section .container {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-avatar-bg {
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 58%;
+      max-width: 720px;
+      pointer-events: none;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      overflow: visible;
+    }
+
+    .hero-avatar-bg img {
+      height: 105%;
+      width: auto;
+      max-width: 110%;
+      object-fit: contain;
+      object-position: right center;
+      filter: grayscale(100%) contrast(1.15) brightness(0.88);
+      opacity: 0.45;
+      mask-image: radial-gradient(ellipse 85% 85% at 75% 50%, rgba(0,0,0,1) 45%, rgba(0,0,0,0) 100%);
+      -webkit-mask-image: radial-gradient(ellipse 85% 85% at 75% 50%, rgba(0,0,0,1) 45%, rgba(0,0,0,0) 100%);
+      transform-origin: 75% 45%;
+      will-change: transform, opacity;
+      transition: transform 0.08s linear, opacity 0.3s ease;
+    }
+
+    .hero-section:hover .hero-avatar-bg img {
+      opacity: 0.58;
+      filter: grayscale(100%) contrast(1.2) brightness(0.92);
+    }
+
+    .hero-title {
+      font-size: clamp(2.4rem, 7vw, 7.5rem);
+      line-height: 0.96;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      text-transform: uppercase;
+      margin-bottom: 3.5rem;
+      transform-origin: left center;
+      will-change: transform;
+      word-break: normal;
+      overflow-wrap: break-word;
+      transition: transform 0.08s linear;
+    }
+
+    .hero-title span.outline {
+      color: transparent;
+      -webkit-text-stroke: 1.5px var(--text-muted);
+      transition: all 0.3s ease;
+    }
+
+    .hero-title:hover span.outline {
+      color: var(--accent);
+      -webkit-text-stroke: 1.5px var(--accent);
+    }
+
+    .hero-meta-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 2fr 1.2fr;
+      gap: 3rem;
+      border-top: 1px solid var(--line);
+      padding-top: 2.5rem;
+      will-change: transform, opacity;
+      transition: transform 0.08s linear;
+    }
+
+    .meta-box h4 {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 0.8rem;
+    }
+
+    .meta-box p {
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+
+    .cta-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      align-items: flex-start;
+    }
+
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.85rem 1.6rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border: 1px solid var(--line-light);
+      background: var(--bg-surface);
+      color: var(--text);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn-action.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .btn-action:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+      box-shadow: 0 6px 20px var(--accent-glow);
+    }
+
+    /* Seção de Filtros Técnicos */
+    .filter-section {
+      padding: 3rem 0 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .filters-nav {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      background: transparent;
+      border: 1px solid var(--line);
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      padding: 0.55rem 1.1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .filter-btn:hover, .filter-btn.active {
+      color: #fff;
+      border-color: var(--accent);
+      background: rgba(255, 67, 42, 0.08);
+    }
+
+    /* Galeria de Projetos / Architecture */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2.5rem;
+      padding-bottom: 6rem;
+    }
+
+    .project-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--line);
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .project-card:hover {
+      border-color: var(--line-light);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
+    }
+
+    .project-card:hover .btn-view-case {
+      background: #ff5740;
+      border-color: #ff5740;
+      box-shadow: 0 8px 24px rgba(255, 67, 42, 0.4);
+    }
+
+    .project-preview {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      height: auto;
+      position: relative;
+      background: #111316;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .project-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .project-card:hover .project-preview img {
+      transform: scale(1.03);
+    }
+
+    /* Ilustrações gráficas conceituais para os cases (Zero AI Slop) */
+    .mockup-art {
+      width: 88%;
+      height: 82%;
+      border: 1px dashed var(--line-light);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 1.8rem;
+      position: relative;
+      transition: transform 0.5s ease;
+    }
+
+    .project-card:hover .mockup-art {
+      transform: scale(1.02);
+    }
+
+    .case-1-theme { background: linear-gradient(135deg, #182026 0%, #0e1217 100%); }
+    .case-2-theme { background: linear-gradient(135deg, #2b1d1f 0%, #171112 100%); }
+    .case-3-theme { background: linear-gradient(135deg, #2a231b 0%, #15120d 100%); }
+    .case-4-theme { background: linear-gradient(135deg, #14231f 0%, #0b1412 100%); }
+
+    .project-info {
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex-grow: 1;
+    }
+
+    .project-header-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.8rem;
+    }
+
+    .project-num {
+      font-size: 0.75rem;
+      color: var(--accent);
+    }
+
+    .project-category {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .project-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+    }
+
+    .project-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 1.8rem;
+    }
+
+    .project-footer-tags {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      padding-top: 1.2rem;
+      border-top: 1px solid var(--line);
+    }
+
+    .tag-pill {
+      font-size: 0.7rem;
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      padding: 0.25rem 0.6rem;
+      color: var(--text-muted);
+    }
+
+    /* Seção Sobre / Trajetória */
+    .about-section {
+      border-top: 1px solid var(--line);
+      padding: 6rem 0;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 4rem;
+    }
+
+    .about-title {
+      font-size: 2.8rem;
+      line-height: 1.05;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .about-content p {
+      font-size: 1.05rem;
+      color: #cbd5e1;
+      margin-bottom: 1.8rem;
+      line-height: 1.7;
+    }
+
+    .timeline {
+      margin-top: 3rem;
+      border-top: 1px solid var(--line);
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 1.5rem;
+      padding: 1.6rem 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .timeline-year {
+      font-size: 0.8rem;
+      color: var(--accent);
+    }
+
+    .timeline-role {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .timeline-company {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    /* Rodapé com Fechamento Tipográfico */
+    footer {
+      border-top: 1px solid var(--line);
+      background: #08090a;
+      padding: 5rem 0 3rem;
+    }
+
+    .footer-cta {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 5rem;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+
+    .footer-cta h2 {
+      font-size: clamp(2rem, 5vw, 4.5rem);
+      line-height: 1;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 2rem;
+      border-top: 1px solid var(--line);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent);
+    }
+
+    .btn-view-case {
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 0.9rem 1.25rem;
+      margin-top: 1.5rem;
+      background: var(--accent);
+      border: 1px solid var(--accent);
+      color: #ffffff;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 4px 14px var(--accent-glow);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn-view-case:hover {
+      background: #ff5740;
+      border-color: #ff5740;
+      color: #ffffff;
+      box-shadow: 0 8px 24px rgba(255, 67, 42, 0.4);
+      transform: translateY(-2px);
+    }
+
+    /* Modal de Inspeção de Case / Tela de Artes */
+    .case-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(6, 7, 8, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index: 999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      opacity: 0;
+      transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .case-modal.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--line-light);
+      max-width: 1100px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      padding: 2.5rem;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85);
+      transform: translateY(20px) scale(0.98);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .case-modal.active .modal-box {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--line);
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .modal-close-btn {
+      background: transparent;
+      border: 1px solid var(--line);
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      padding: 0.6rem 1.1rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      flex-shrink: 0;
+    }
+
+    .modal-close-btn:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .modal-arts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .modal-art-card {
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .modal-art-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-art-card .art-img-wrapper {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background: #0e1013;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-art-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .modal-art-card:hover img {
+      transform: scale(1.04);
+    }
+
+    .modal-art-card .art-caption {
+      padding: 0.85rem 1rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Lightbox Viewer para zoom */
+    .lightbox-viewer {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.96);
+      z-index: 1100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      cursor: zoom-out;
+    }
+
+    .lightbox-viewer.active {
+      display: flex;
+    }
+
+    .lightbox-viewer img {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+      border: 1px solid var(--line-light);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.9);
+    }
+
+    /* Responsividade Robusta para Tablet & Mobile */
+    @media (max-width: 900px) {
+      .gallery-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      .hero-avatar-bg {
+        width: 80%;
+        max-width: 420px;
+        opacity: 0.28;
+        right: -8%;
+      }
+      .hero-meta-grid {
+        grid-template-columns: 1fr;
+        gap: 1.8rem;
+      }
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+      .timeline-item {
+        grid-template-columns: 110px 1fr;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .container {
+        padding: 0 1.25rem;
+      }
+
+      /* Header Mobile */
+      .nav-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.85rem;
+        padding: 0.9rem 0;
+      }
+      .brand-logo-img {
+        height: 24px;
+      }
+      .nav-links {
+        width: 100%;
+        gap: 1.2rem;
+        justify-content: flex-start;
+        font-size: 0.72rem;
+        flex-wrap: wrap;
+      }
+
+      /* Hero Mobile */
+      .hero-section {
+        padding: 4rem 0 2.5rem;
+      }
+      .hero-title {
+        font-size: clamp(1.8rem, 8.5vw, 2.8rem);
+        letter-spacing: -0.03em;
+        line-height: 1.02;
+        margin-bottom: 2rem;
+      }
+      .hero-avatar-bg {
+        width: 85%;
+        max-width: 300px;
+        right: -10%;
+        opacity: 0.25;
+      }
+      .hero-meta-grid {
+        padding-top: 1.5rem;
+        gap: 1.5rem;
+      }
+      .meta-box p {
+        font-size: 0.88rem;
+      }
+      .cta-actions {
+        width: 100%;
+      }
+      .cta-actions .btn-action {
+        width: 100%;
+        justify-content: center;
+      }
+
+      /* Filtros Mobile */
+      .filter-section {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.8rem;
+        padding: 2rem 0 1.2rem;
+      }
+      .filters-nav {
+        width: 100%;
+        display: flex;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: 0.4rem;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      .filters-nav::-webkit-scrollbar {
+        display: none;
+      }
+      .filter-btn {
+        flex-shrink: 0;
+        white-space: nowrap;
+        font-size: 0.7rem;
+        padding: 0.45rem 0.8rem;
+      }
+
+      /* Cards de Cases */
+      .project-info {
+        padding: 1.4rem;
+      }
+      .project-title {
+        font-size: 1.3rem;
+      }
+      .project-desc {
+        font-size: 0.84rem;
+      }
+
+      /* Trajetória / Sobre */
+      .about-section {
+        padding: 3.5rem 0;
+      }
+      .about-title {
+        font-size: 2rem;
+      }
+      .timeline-item {
+        grid-template-columns: 1fr;
+        gap: 0.3rem;
+        padding: 1.2rem 0;
+      }
+
+      /* Footer Mobile */
+      footer {
+        padding: 3.5rem 0 2rem;
+      }
+      .footer-cta {
+        margin-bottom: 2.5rem;
+        gap: 1.5rem;
+      }
+      .footer-cta h2 {
+        font-size: clamp(1.7rem, 6vw, 2.4rem);
+      }
+      .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+      .footer-links {
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      /* Modal Mobile */
+      .case-modal {
+        padding: 0.75rem;
+      }
+      .modal-box {
+        padding: 1.5rem 1.1rem;
+        max-height: 94vh;
+      }
+      .modal-header {
+        margin-bottom: 1.2rem;
+        padding-bottom: 1rem;
+      }
+      .modal-arts-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Topo / Metadados de Sistema -->
+  <header>
+    <div class="container">
+      <div class="nav-inner">
+        <div class="brand-mark">
+          <img src="LOGO DANIEL DG.svg" alt="Daniel Rodrigo — Direção de Arte & Identidade Visual" class="brand-logo-img" />
+        </div>
+
+        <nav>
+          <ul class="nav-links mono">
+            <li><a href="#projetos">01_TRABALHOS</a></li>
+            <li><a href="#sobre">02_TRAJETÓRIA</a></li>
+            <li><a href="#contato">03_CONTATO</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Principal -->
+    <section class="hero-section">
+      <div class="hero-avatar-bg" aria-hidden="true">
+        <img src="avatarnovo.png" alt="Daniel Rodrigo - Retrato" />
+      </div>
+      <div class="container">
+        <h1 class="hero-title display">
+          DESIGN VISUAL<br>
+          <span class="outline">ESTRATÉGICO</span> &<br>
+          IDENTIDADE.
+        </h1>
+
+        <div class="hero-meta-grid">
+          <div class="meta-box">
+            <h4 class="mono">// ESPECIALIDADE</h4>
+            <p>Direção de arte, criação de sistemas de marcas (KV/Branding) e design de conteúdo de alta densidade cognitiva para B2B e B2C.</p>
+          </div>
+          
+          <div class="meta-box">
+            <h4 class="mono">// VISÃO DE DESIGN</h4>
+            <p>Fusão entre precisão tipográfica suíça, impacto visual e os fundamentos de UX. Nada de ruído visual descartável: forma a serviço da mensagem e da conversão.</p>
+          </div>
+
+          <div class="meta-box cta-actions">
+            <a href="https://api.whatsapp.com/send/?phone=5592992552746" target="_blank" class="btn-action primary mono">
+              Iniciar Projeto ↗
+            </a>
+            <a href="https://behance.net/danielrodrigo" target="_blank" class="btn-action mono">
+              Behance Index ↗
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Barra de Filtros de Projetos -->
+    <div class="container" id="projetos">
+      <div class="filter-section">
+        <span class="section-label mono">// ÍNDICE DE CASES SELECIONADOS</span>
+        <div class="filters-nav">
+          <button class="filter-btn active" data-filter="all">[ TODOS (06) ]</button>
+          <button class="filter-btn" data-filter="social">CARROSSÉIS & SOCIAL</button>
+          <button class="filter-btn" data-filter="branding">IDENTIDADE & MARCA</button>
+          <button class="filter-btn" data-filter="keyvisual">KEY VISUAL & CAMPANHAS</button>
+          <button class="filter-btn" data-filter="interface">DESIGN DE INTERFACES</button>
+          <button class="filter-btn" data-filter="compilacao">COMPILAÇÃO DE CASES</button>
+        </div>
+      </div>
+
+      <!-- Grade de Projetos -->
+      <div class="gallery-grid">
+        
+        <!-- Case 1: CEI Contab -->
+        <article class="project-card" data-category="social" data-case="cei">
+          <div class="project-preview case-1-theme">
+            <img src="CARD 1.png" alt="Case 01 - CEI Contab" />
+          </div>
+          <div class="project-info">
+            <div>
+              <div class="project-header-meta mono">
+                <span class="project-num">#CASE_01</span>
+                <span class="project-category">Conteúdo B2B & Social Media</span>
+              </div>
+              <h3 class="project-title">CEI Contab — Tradução de Complexidade Corporativa</h3>
+              <p class="project-desc">
+                Transformação de normativas fiscais áridas e regras contábeis em narrativas visuais modulares. Estruturação de infográficos em carrossel e tipografia expressiva para converter audiência qualificada no LinkedIn e Instagram.
+              </p>
+            </div>
+            <div class="project-footer-tags mono">
+              <span class="tag-pill">Carrosséis Estratégicos</span>
+              <span class="tag-pill">Design Editorial Digital</span>
+              <span class="tag-pill">B2B Content</span>
+              <span class="tag-pill">Figma + Illustrator</span>
+            </div>
+            <button class="btn-view-case mono" data-case="cei">
+              <span>VER MAIS ARTES</span>
+              <span>↗</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- Case 2: Floraeto -->
+        <article class="project-card" data-category="keyvisual" data-case="floraeto">
+          <div class="project-preview case-2-theme">
+            <img src="case2_floraeto.jpg" alt="Case 02 - Floraeto" />
+          </div>
+          <div class="project-info">
+            <div>
+              <div class="project-header-meta mono">
+                <span class="project-num">#CASE_02</span>
+                <span class="project-category">Key Visual & Sazonal</span>
+              </div>
+              <h3 class="project-title">Floraeto — Campanhas Varejo & Eventos</h3>
+              <p class="project-desc">
+                Criação de identidades visuais efêmeras para momentos comemorativos (como Dia das Mães). Equilíbrio entre elegância botânica e apelo comercial direto para conversão em PDV e feed social.
+              </p>
+            </div>
+            <div class="project-footer-tags mono">
+              <span class="tag-pill">Campanhas Sazonais</span>
+              <span class="tag-pill">Direção de Arte</span>
+              <span class="tag-pill">Varejo de Luxo</span>
+            </div>
+            <button class="btn-view-case mono" data-case="floraeto">
+              <span>VER MAIS ARTES</span>
+              <span>↗</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- Case 3: Hon Café / Marinara -->
+        <article class="project-card" data-category="branding" data-case="hon_cafe">
+          <div class="project-preview case-3-theme">
+            <img src="case3_hon_cafe.jpg" alt="Case 03 - Hon Café" />
+          </div>
+          <div class="project-info">
+            <div>
+              <div class="project-header-meta mono">
+                <span class="project-num">#CASE_03</span>
+                <span class="project-category">Gastronomia & Identidade</span>
+              </div>
+              <h3 class="project-title">Hon Café & Marinara — Visual Gastronômico</h3>
+              <p class="project-desc">
+                Engenharia de marca voltada para o setor alimentício: estudo de contraste cromático, cardápios funcionais e composições digitais que estimulam o desejo sensorial de compra imediata.
+              </p>
+            </div>
+            <div class="project-footer-tags mono">
+              <span class="tag-pill">Branding Gastronômico</span>
+              <span class="tag-pill">Packaging & Embalagem</span>
+              <span class="tag-pill">Social Feeds</span>
+            </div>
+            <button class="btn-view-case mono" data-case="hon_cafe">
+              <span>VER MAIS ARTES</span>
+              <span>↗</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- Case 4: Amazon Ecofishing -->
+        <article class="project-card" data-category="branding" data-case="amazon">
+          <div class="project-preview case-4-theme">
+            <img src="case4_amazon_ecofishing.jpg" alt="Case 04 - Amazon Ecofishing" />
+          </div>
+          <div class="project-info">
+            <div>
+              <div class="project-header-meta mono">
+                <span class="project-num">#CASE_04</span>
+                <span class="project-category">Identidade Visual & Turismo Esportivo</span>
+              </div>
+              <h3 class="project-title">Amazon Ecofishing — A Força Visual da Pesca Esportiva</h3>
+              <p class="project-desc">
+                Construção de marca que equilibra a rusticidade da floresta tropical com a sofisticação do turismo internacional de pesca. Aplicações modulares em uniformes técnicos, embarcações e mídias de alto engajamento.
+              </p>
+            </div>
+            <div class="project-footer-tags mono">
+              <span class="tag-pill">Manual de Marca</span>
+              <span class="tag-pill">Ecoturismo</span>
+              <span class="tag-pill">Sinalização & Vestuário</span>
+              <span class="tag-pill">Assets Vetoriais</span>
+            </div>
+            <button class="btn-view-case mono" data-case="amazon">
+              <span>VER MAIS ARTES</span>
+              <span>↗</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- Case 5: Compilação de Cases & Social Media -->
+        <article class="project-card" data-category="compilacao" data-case="compilacao">
+          <div class="project-preview case-1-theme">
+            <img src="imagens/social_media_01.jpg" alt="Case 05 - Compilação de Campanhas Comerciais" />
+          </div>
+          <div class="project-info">
+            <div>
+              <div class="project-header-meta mono">
+                <span class="project-num">#CASE_05</span>
+                <span class="project-category">Compilação Comercial & Social Media</span>
+              </div>
+              <h3 class="project-title">Compilação de Campanhas, Varejo & Peças Publicitárias</h3>
+              <p class="project-desc">
+                Acervo abrangente de peças gráficas, direção de arte e posts de alta performance desenvolvidos para clientes de múltiplos segmentos (Tterra, Artesã Farmácia de Manipulação, Prodimagem, New Life Academia, Pró Arquivar e outros).
+              </p>
+            </div>
+            <div class="project-footer-tags mono">
+              <span class="tag-pill">30+ Peças Gráficas</span>
+              <span class="tag-pill">Social Media Multi-Nicho</span>
+              <span class="tag-pill">Campanhas Comerciais</span>
+              <span class="tag-pill">Direção de Arte</span>
+            </div>
+            <button class="btn-view-case mono" data-case="compilacao">
+              <span>VER TODAS AS ARTES (31 PEÇAS)</span>
+              <span>↗</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- Case 6: Design de Interfaces & Produtos Digitais -->
+        <article class="project-card" data-category="interface" data-case="interfaces">
+          <div class="project-preview case-1-theme">
+            <img src="interface/CAPA RECRUITER.png" alt="Case 06 - Design de Interfaces & Produtos Digitais" />
+          </div>
+          <div class="project-info">
+            <div>
+              <div class="project-header-meta mono">
+                <span class="project-num">#CASE_06</span>
+                <span class="project-category">Design de Interfaces & UX/UI</span>
+              </div>
+              <h3 class="project-title">Design de Interfaces — Produtos Digitais, SaaS & IoT</h3>
+              <p class="project-desc">
+                Criação de ecossistemas digitais escaláveis e centrados no usuário: <strong>RecruiterSys</strong> (Plataforma Tech B2B & App B2C), <strong>Hóruz eDB</strong> (Diário de Bordo Aeronáutico e Regulação ANAC), <strong>Pet Plant App</strong> (UX Botânica com IoT) e <strong>VentHome</strong> (Automação Residencial e Conforto Circadiano).
+              </p>
+            </div>
+            <div class="project-footer-tags mono">
+              <span class="tag-pill">UX/UI Design</span>
+              <span class="tag-pill">Design Systems</span>
+              <span class="tag-pill">SaaS B2B/B2C</span>
+              <span class="tag-pill">IoT & Automação</span>
+              <span class="tag-pill">Prototipação em Figma</span>
+            </div>
+            <button class="btn-view-case mono" data-case="interfaces">
+              <span>VER PROJETOS DE INTERFACE (4 CASES)</span>
+              <span>↗</span>
+            </button>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+    <!-- Seção Sobre & Trajetória Técnica -->
+    <section class="about-section" id="sobre">
+      <div class="container">
+        <div class="about-grid">
+          <div>
+            <div class="section-label mono" style="margin-bottom: 1.5rem;">// TRAJETÓRIA & MÉTODO</div>
+            <h2 class="about-title display">14 ANOS DE RIGOR VISUAL.</h2>
+          </div>
+          
+          <div class="about-content">
+            <p>
+              Minha prática como Designer Gráfico e Diretor de Arte combina o olhar crítico da comunicação publicitária clássica com a disciplina sistemática do design digital contemporâneo. Atuo desde 2012 lapidando marcas, estruturando campanhas de alto impacto e dando clareza visual a narrativas empresariais.
+            </p>
+            <p>
+              Minha atuação em <strong>Product Design & UX/UI</strong> a partir de 2020 me deu o repertório necessário para criar peças gráficas que não são apenas esteticamente impecáveis, mas rigorosamente funcionais, legíveis e orientadas a métricas de conversão reais.
+            </p>
+
+            <div class="timeline">
+              <div class="timeline-item">
+                <div class="timeline-year mono">[2024 — ATUAL]</div>
+                <div>
+                  <div class="timeline-role">Graphic Designer & Art Director</div>
+                  <div class="timeline-company">Sinergia — Projetos Visuais & Conteúdo Estratégico</div>
+                </div>
+              </div>
+
+              <div class="timeline-item">
+                <div class="timeline-year mono">[2020 — 2026]</div>
+                <div>
+                  <div class="timeline-role">Product Designer & UX/UI (Atuação Complementar)</div>
+                  <div class="timeline-company">Agência Digi, Garupa & Aliare — Sistemas digitais e usabilidade</div>
+                </div>
+              </div>
+
+              <div class="timeline-item">
+                <div class="timeline-year mono">[2018 — 2020]</div>
+                <div>
+                  <div class="timeline-role">Diretor de Arte</div>
+                  <div class="timeline-company">Tterra — Branding e campanhas multissetoriais</div>
+                </div>
+              </div>
+
+              <div class="timeline-item">
+                <div class="timeline-year mono">[2012 — 2018]</div>
+                <div>
+                  <div class="timeline-role">Designer Gráfico</div>
+                  <div class="timeline-company">ULBRA Manaus & Mix Comunicação Visual — Editorial, offline e grandes formatos</div>
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-top: 3rem; display: flex; gap: 2rem; flex-wrap: wrap;">
+              <div>
+                <span class="mono" style="font-size: 0.72rem; color: var(--text-muted);">FORMAÇÃO ACADÊMICA:</span>
+                <div style="font-size: 0.9rem; font-weight: 600; margin-top: 0.2rem;">Tecnólogo em Design Gráfico (UNINORTE)</div>
+              </div>
+              <div>
+                <span class="mono" style="font-size: 0.72rem; color: var(--text-muted);">ESPECIALIZAÇÃO:</span>
+                <div style="font-size: 0.9rem; font-weight: 600; margin-top: 0.2rem;">Pós em Gestão de Design de Interiores (Nilton Lins)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Modal de Inspeção de Case -->
+    <div class="case-modal" id="caseModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-box">
+        <div class="modal-header">
+          <div>
+            <div class="mono" style="color: var(--accent); font-size: 0.78rem; margin-bottom: 0.4rem;" id="modalMeta">#CASE_01 // CONTEÚDO B2B</div>
+            <h2 class="display" style="font-size: clamp(1.5rem, 3.2vw, 2.3rem); font-weight: 800; line-height: 1.1;" id="modalTitle">Título do Case</h2>
+          </div>
+          <button class="modal-close-btn" id="modalCloseBtn">
+            <span>[ ESC ] FECHAR</span>
+            <span>✕</span>
+          </button>
+        </div>
+
+        <p id="modalDesc" style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; margin-bottom: 1.5rem;"></p>
+        
+        <div class="project-footer-tags mono" id="modalTags" style="border-top: 1px solid var(--line); padding-top: 1rem; margin-bottom: 2rem;">
+        </div>
+
+        <div class="mono" style="font-size: 0.75rem; letter-spacing: 0.15em; color: var(--accent); text-transform: uppercase;">
+          // ARTES & DESDOBRAMENTOS DO CASE (CLIQUE PARA AMPLIAR)
+        </div>
+
+        <div class="modal-arts-grid" id="modalArtsGrid">
+          <!-- Inserido dinamicamente via JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Lightbox Viewer para Zoom de Imagem -->
+    <div class="lightbox-viewer" id="lightboxViewer" title="Clique para fechar">
+      <img id="lightboxImg" src="" alt="Zoom da Arte" />
+    </div>
+
+    <!-- Rodapé & Contato -->
+    <footer id="contato">
+      <div class="container">
+        <div class="footer-cta">
+          <div>
+            <span class="section-label mono">// VAMOS CONVERSAR</span>
+            <h2 class="display" style="margin-top: 1rem;">DISPONÍVEL PARA<br><span style="color: var(--accent);">NOVOS DESAFIOS.</span></h2>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 1rem;">
+            <a href="https://api.whatsapp.com/send/?phone=5592992552746" target="_blank" class="btn-action primary mono">
+              Conversar no WhatsApp ↗
+            </a>
+            <a href="https://linkedin.com/in/daniel-rodrigo-leite" target="_blank" class="btn-action mono">
+              LinkedIn Conexão ↗
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-bottom mono">
+          <div>© DANIEL RODRIGO ANDRADE LEITE — MANAUS / BRASIL</div>
+          <ul class="footer-links">
+            <li><a href="https://behance.net/danielrodrigo" target="_blank">BEHANCE</a></li>
+            <li><a href="https://linkedin.com/in/daniel-rodrigo-leite" target="_blank">LINKEDIN</a></li>
+            <li><a href="Daniel_Rodrigo_Leite_Graphic_Designer_CV.pdf" target="_blank" download="Daniel_Rodrigo_Leite_Graphic_Designer_CV.pdf">DOWNLOAD_CV.PDF</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    // Sistema de Filtragem dos Projetos
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const projectCards = document.querySelectorAll('.project-card');
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const filterValue = btn.getAttribute('data-filter');
+
+        projectCards.forEach(card => {
+          const cardCat = card.getAttribute('data-category');
+          if (filterValue === 'all' || cardCat === filterValue || (filterValue === 'social' && cardCat === 'compilacao')) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // Base de Dados de Artes por Case (100% Separadas por Cliente)
+    const caseData = {
+      cei: {
+        number: '#CASE_01',
+        category: 'Conteúdo B2B & Social Media',
+        title: 'CEI Contab — Tradução de Complexidade Corporativa',
+        desc: 'Transformação de normativas fiscais áridas e regras contábeis em narrativas visuais modulares de alta retenção. Estruturação de infográficos em carrossel, contraste técnico e tipografia expressiva para converter tomadores de decisão no LinkedIn e Instagram.',
+        tags: ['Carrosséis Estratégicos', 'Design Editorial Digital', 'B2B Content', 'Figma + Illustrator'],
+        images: [
+          { src: 'CARD 1.png', title: 'Carrossel B2B — Capa: Simples Nacional' },
+          { src: 'case1_cei_contab.jpg', title: 'Infográfico Estratégico — Posicionamento CEI' },
+          { src: 'cases/cei/CARD 3.png', title: 'CEI Contab — Card Informativo 03' },
+          { src: 'cases/cei/card 6.png', title: 'CEI Contab — Card Técnico 06' },
+          { src: 'cases/cei/CARD 7-1.png', title: 'CEI Contab — Slide Estratégico 07' },
+          { src: 'cases/cei/CARD 8.png', title: 'CEI Contab — Infográfico 08' },
+          { src: 'cases/cei/CARD 9.png', title: 'CEI Contab — Fechamento & CTA 09' }
+        ]
+      },
+      floraeto: {
+        number: '#CASE_02',
+        category: 'Key Visual & Sazonal',
+        title: 'Floraeto — Campanhas Varejo & Eventos',
+        desc: 'Criação de identidades visuais efêmeras e materiais promocionais com alta sensibilidade estética. Equilíbrio entre elegância botânica, sofisticação e apelo comercial direto para conversão em PDV e feed social.',
+        tags: ['Campanhas Sazonais', 'Direção de Arte', 'Varejo de Luxo', 'Social & PDV'],
+        images: [
+          { src: 'case2_floraeto.jpg', title: 'Floraeto — Key Visual Principal' },
+          { src: 'cases/flora/POST MANAUS 2 copiar.jpg', title: 'Floraeto — Post Manaus Campanha' },
+          { src: 'cases/flora/POST1-2 copiar.png', title: 'Floraeto — Post Coleção Especial' },
+          { src: 'cases/flora/STORIES AVISO HORARIO copiar.jpg', title: 'Floraeto — Stories & Horário de Atendimento' }
+        ]
+      },
+      hon_cafe: {
+        number: '#CASE_03',
+        category: 'Gastronomia & Identidade',
+        title: 'Hon Café & Marinara — Visual Gastronômico',
+        desc: 'Engenharia de marca e composições promocionais voltadas para o setor de alimentos & bebidas: estudo rigoroso de contraste cromático, cardápios funcionais e composições que estimulam o desejo sensorial imediato.',
+        tags: ['Branding Gastronômico', 'Packaging & Embalagem', 'Social Feeds', 'Apetite Appeal'],
+        images: [
+          { src: 'case3_hon_cafe.jpg', title: 'Hon Café — Identidade & Apetite Appeal' },
+          { src: 'case3_marinara.jpg', title: 'Marinara — Manual de Embalagens & Selos' },
+          { src: 'cases/hon e marinara/CARD 1 nv copiar.jpg', title: 'Hon Café — Card Novo Lançamento' },
+          { src: 'cases/hon e marinara/CARD1 copiar.jpg', title: 'Hon Café — Card Promocional 01' },
+          { src: 'cases/hon e marinara/CARD2 copiar.jpg', title: 'Hon Café — Menu Tasting 02' },
+          { src: 'cases/hon e marinara/CARD3 copiar.jpg', title: 'Hon Café — Pratos & Combos 03' },
+          { src: 'cases/hon e marinara/CARD 3 copiar.jpg', title: 'Hon Café — Card Especial 03' },
+          { src: 'cases/hon e marinara/CARD4 copiar.jpg', title: 'Hon Café — Destaque de Cardápio 04' },
+          { src: 'cases/hon e marinara/CARD 4 copiar.jpg', title: 'Hon Café — Bebidas & Cafés 04' },
+          { src: 'cases/hon e marinara/CARD6 copiar.jpg', title: 'Hon Café — Sobremesas & Gelatos 06' },
+          { src: 'cases/hon e marinara/CARD7 copiar.jpg', title: 'Hon Café — Coffee Time 07' },
+          { src: 'cases/hon e marinara/CARD8 copiar.jpg', title: 'Hon Café — Happy Hour 08' },
+          { src: 'cases/hon e marinara/CARD 9 copiar.jpg', title: 'Hon Café — Cardápio Especial 09' },
+          { src: 'cases/hon e marinara/CARD 11 copiar.jpg', title: 'Hon Café — Promoção Exclusiva 11' },
+          { src: 'cases/hon e marinara/CARD 12 copiar.jpg', title: 'Hon Café — Card Executivo 12' },
+          { src: 'cases/hon e marinara/CARD ANO NOVO copiar.jpg', title: 'Hon Café — Campanha Especial Ano Novo' },
+          { src: 'cases/hon e marinara/CARD ROLHA FREE copiar.jpg', title: 'Hon Café — Rolha Free & Eventos' },
+          { src: 'cases/hon e marinara/CARROSSEL0 copiar.jpg', title: 'Hon Café — Carrossel Gastronômico' }
+        ]
+      },
+      amazon: {
+        number: '#CASE_04',
+        category: 'Identidade Visual & Turismo Esportivo',
+        title: 'Amazon Ecofishing — A Força Visual da Pesca Esportiva',
+        desc: 'Construção de marca que equilibra a imponência da floresta amazônica com a sofisticação do turismo internacional de pesca esportiva. Aplicações modulares em uniformes técnicos, sinalização de embarcações e mídias digitais.',
+        tags: ['Manual de Marca', 'Ecoturismo', 'Sinalização & Vestuário', 'Assets Vetoriais'],
+        images: [
+          { src: 'case4_amazon_ecofishing.jpg', title: 'Amazon Ecofishing — Key Visual & Sistema de Marca' },
+          { src: 'cases/amazon ecofishing/20 NOVEMBRO ECO FISSHING copiar.jpg', title: 'Amazon Ecofishing — Expedição 20 de Novembro' },
+          { src: 'cases/amazon ecofishing/CARD 7 SETEMBRO AMAZON ECOFISHING copiar.jpg', title: 'Amazon Ecofishing — Feriado 7 de Setembro' },
+          { src: 'cases/amazon ecofishing/CARD REPUBLICA AMAZON ECOFISHING copiar.jpg', title: 'Amazon Ecofishing — Temporada Proclamação da República' }
+        ]
+      },
+      compilacao: {
+        number: '#CASE_05',
+        category: 'Compilação de Cases & Social Media',
+        title: 'Acervo de Campanhas Comerciais & Social Media',
+        desc: 'Seleção abrangente de peças publicitárias, posts para redes sociais, key visuals e anúncios desenvolvidos para diversas marcas e segmentos (Tterra Comunicação, Artesã Farmácia de Manipulação, Prodimagem / Prodcard Infinity, Academia New Life, Pró Arquivar e outros).',
+        tags: ['Social Media', 'Campanhas Comerciais', 'Performance & Varejo', 'Direção de Arte Multi-Setorial'],
+        images: [
+          { src: 'imagens/social_media_01.jpg', title: 'Tterra — 5 Erros Fatais em Anúncio Digital' },
+          { src: 'imagens/social_media_02.jpg', title: 'Tterra — Criativos e Dedicados' },
+          { src: 'imagens/social_media_03.jpg', title: 'Artesã — Linha de Manipulação & Saúde' },
+          { src: 'imagens/social_media_04.jpg', title: 'Artesã — Ômega 3 Cápsulas' },
+          { src: 'imagens/social_media_05.jpg', title: 'New Life Academia — Desafio Medida Certa' },
+          { src: 'imagens/social_media_06.jpg', title: 'Pró Arquivar — Soluções Corporativas' },
+          { src: 'imagens/social_media_07.jpg', title: 'Prodimagem — Prodcard Infinity Rio Amazonas' },
+          { src: 'imagens/social_media_08.jpg', title: 'Peça Comercial — Campanhas & Varejo' },
+          { src: 'imagens/social_media_09.jpg', title: 'Design Editorial — Social Media' },
+          { src: 'imagens/social_media_10.jpg', title: 'Peça Publicitária — Feed & Stories' },
+          { src: 'imagens/social_media_11.jpg', title: 'Key Visual — Campanha Promocional' },
+          { src: 'imagens/social_media_12.jpg', title: 'Card de Engajamento — Conteúdo Digital' },
+          { src: 'imagens/social_media_13.jpg', title: 'Design de Conteúdo — Linha Comercial' },
+          { src: 'imagens/social_media_14.jpg', title: 'Peça Publicitária — Divulgação & Conversão' },
+          { src: 'imagens/social_media_15.jpg', title: 'Campanha de Marca — Visual Impact' },
+          { src: 'imagens/social_media_16.jpg', title: 'Storytelling Visual — Conteúdo Corporativo' },
+          { src: 'imagens/social_media_17.jpg', title: 'Peça Digital — Campanhas de Alto Impacto' },
+          { src: 'imagens/social_media_18.jpg', title: 'Direção de Arte — Varejo & Serviços' },
+          { src: 'imagens/social_media_19.jpg', title: 'Comunicação Visual — Peça Publicitária' },
+          { src: 'imagens/social_media_20.jpg', title: 'Design Promocional — Ação Sazonal' },
+          { src: 'imagens/social_media_21.jpg', title: 'Peça de Performance — Social Feeds' },
+          { src: 'imagens/social_media_22.jpg', title: 'Criativo Comercial — Divulgação de Produto' },
+          { src: 'imagens/social_media_23.jpg', title: 'Design de Post — Campanhas Digitais' },
+          { src: 'imagens/social_media_24.jpg', title: 'Peça Gráfica — Branding & Conteúdo' },
+          { src: 'imagens/social_media_25.jpg', title: 'Composição de Varejo — Destaque Comercial' },
+          { src: 'imagens/social_media_26.jpg', title: 'Direção de Arte — Redes Sociais' },
+          { src: 'imagens/social_media_27.jpg', title: 'Anúncio Digital — Engajamento & Vendas' },
+          { src: 'imagens/social_media_28.jpg', title: 'Card Promocional — Comunicação Eficaz' },
+          { src: 'imagens/social_media_29.jpg', title: 'Peça de Campanha — Posicionamento de Marca' },
+          { src: 'imagens/social_media_30.jpg', title: 'Criativo Publicitário — Conversão Direta' },
+          { src: 'imagens/social_media_31.jpg', title: 'Fechamento de Campanha — Peça Final' }
+        ]
+      },
+      interfaces: {
+        number: '#CASE_06',
+        category: 'Design de Interfaces & UX/UI',
+        title: 'Design de Interfaces — Produtos Digitais, SaaS & IoT',
+        desc: `
+          <div style="display: flex; flex-direction: column; gap: 1.2rem;">
+            <p style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.6;">
+              Projetos concebidos na interseção entre <strong>UX Strategy, Design Systems, IoT e Engenharia de Produto</strong>. Transformando desafios complexos e fluxos densos em produtos digitais de alta usabilidade e alto impacto:
+            </p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem;">
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--line); border-left: 3px solid #0ea5e9; padding: 1.1rem; border-radius: 4px;">
+                <strong style="color: #38bdf8; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 0.4rem;">01. RecruiterSys (Recrutamento Tech)</strong>
+                <p style="font-size: 0.82rem; color: #94a3b8; line-height: 1.5; margin: 0;">Ecossistema dual (Dashboard B2B + App B2C) eliminando o gap de comunicação e otimizando a contratação e triagem técnica de talentos em TI.</p>
+              </div>
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--line); border-left: 3px solid #06b6d4; padding: 1.1rem; border-radius: 4px;">
+                <strong style="color: #22d3ee; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 0.4rem;">02. Hóruz eDB (Aviação & ANAC)</strong>
+                <p style="font-size: 0.82rem; color: #94a3b8; line-height: 1.5; margin: 0;">Digitalização regulatória do diário de bordo aeronáutico em tablet 10.4'', com conformidade ANAC, Green UX (metrificação de carbono) e apoio a missões na Amazônia.</p>
+              </div>
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--line); border-left: 3px solid #10b981; padding: 1.1rem; border-radius: 4px;">
+                <strong style="color: #34d399; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 0.4rem;">03. Pet Plant App (IoT & UX Botânica)</strong>
+                <p style="font-size: 0.82rem; color: #94a3b8; line-height: 1.5; margin: 0;">Gestão e cuidado inteligente de plantas com telemetria de sensores (umidade, luz, temperatura e fertilidade) e diagnósticos preditivos.</p>
+              </div>
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--line); border-left: 3px solid #a855f7; padding: 1.1rem; border-radius: 4px;">
+                <strong style="color: #c084fc; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 0.4rem;">04. VentHome (IoT & Smart Climate)</strong>
+                <p style="font-size: 0.82rem; color: #94a3b8; line-height: 1.5; margin: 0;">Automação residencial que transforma ventiladores analógicos em sistemas inteligentes com presets customizados (Gamer, Bike, Sono) e sincronização circadiana.</p>
+              </div>
+            </div>
+          </div>
+        `,
+        tags: ['UX/UI Design', 'Design Systems', 'SaaS B2B/B2C', 'IoT & Automação', 'Mobile Apps', 'Figma Prototyping'],
+        images: [
+          { src: 'interface/CAPA RECRUITER.png', title: 'RecruiterSys — Ecossistema Dual de Recrutamento Tech' },
+          { src: 'interface/mock 1.png', title: 'RecruiterSys — Mockup & Dashboard da Plataforma' },
+          { src: 'interface/HORUZ.png', title: 'Hóruz eDB — Diário de Bordo Aeronáutico (Tablet 10.4 & ANAC)' },
+          { src: 'interface/diario-cockpit.png', title: 'Hóruz eDB — Aplicação no Cockpit & Navegação em Voo' },
+          { src: 'interface/PETPLANT.png', title: 'Pet Plant App — Monitoramento IoT & UX Botânica' },
+          { src: 'interface/petplant1.png', title: 'Pet Plant App — Telas de Métricas & Dashboard de Saúde' },
+          { src: 'interface/VENTIHOME.png', title: 'VentHome — App de Climatização Inteligente & IoT' },
+          { src: 'interface/mockupventihome.png', title: 'VentHome — Mockups de Interação & Modos de Uso' },
+          { src: 'interface/OT12YV1 copiar 1.png', title: 'Design de Interfaces — Telas & Componentes de Produto' }
+        ]
+      }
+    };
+
+    // Elementos do Modal e Lightbox
+    const caseModal = document.getElementById('caseModal');
+    const modalCloseBtn = document.getElementById('modalCloseBtn');
+    const modalMeta = document.getElementById('modalMeta');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDesc = document.getElementById('modalDesc');
+    const modalTags = document.getElementById('modalTags');
+    const modalArtsGrid = document.getElementById('modalArtsGrid');
+
+    const lightboxViewer = document.getElementById('lightboxViewer');
+    const lightboxImg = document.getElementById('lightboxImg');
+
+    function openCaseModal(caseKey) {
+      const data = caseData[caseKey];
+      if (!data) return;
+
+      modalMeta.textContent = `${data.number} // ${data.category.toUpperCase()}`;
+      modalTitle.textContent = data.title;
+      modalDesc.innerHTML = data.desc;
+
+      modalTags.innerHTML = data.tags.map(tag => `<span class="tag-pill">${tag}</span>`).join('');
+
+      modalArtsGrid.innerHTML = data.images.map(img => `
+        <div class="modal-art-card" onclick="openLightbox('${img.src}')" title="Clique para ampliar em tela cheia">
+          <div class="art-img-wrapper">
+            <img src="${img.src}" alt="${img.title}" loading="lazy" />
+          </div>
+          <div class="art-caption">
+            <span>${img.title}</span>
+            <span style="color: var(--accent); font-weight: 700;">⤢ AMPLIAR</span>
+          </div>
+        </div>
+      `).join('');
+
+      caseModal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeCaseModal() {
+      caseModal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function openLightbox(src) {
+      lightboxImg.src = src;
+      lightboxViewer.classList.add('active');
+    }
+
+    function closeLightbox() {
+      lightboxViewer.classList.remove('active');
+      lightboxImg.src = '';
+    }
+
+    // Event Listeners em todo o Card de Projeto (clicar em qualquer parte do card abre o Modal)
+    document.querySelectorAll('.project-card').forEach(card => {
+      card.addEventListener('click', (e) => {
+        const caseKey = card.getAttribute('data-case') || card.querySelector('.btn-view-case')?.getAttribute('data-case');
+        if (caseKey) {
+          openCaseModal(caseKey);
+        }
+      });
+    });
+
+    modalCloseBtn.addEventListener('click', closeCaseModal);
+
+    caseModal.addEventListener('click', (e) => {
+      if (e.target === caseModal) {
+        closeCaseModal();
+      }
+    });
+
+    lightboxViewer.addEventListener('click', closeLightbox);
+
+    // Tecla ESC fecha Lightbox ou Modal
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (lightboxViewer.classList.contains('active')) {
+          closeLightbox();
+        } else if (caseModal.classList.contains('active')) {
+          closeCaseModal();
+        }
+      }
+    });
+
+    // Efeito Parallax Cinematográfico na Hero (Scroll + Mouse Depth)
+    const heroSection = document.querySelector('.hero-section');
+    const heroTitle = document.querySelector('.hero-title');
+    const heroAvatarImg = document.querySelector('.hero-avatar-bg img');
+    const heroMetaGrid = document.querySelector('.hero-meta-grid');
+
+    let mouseX = 0, mouseY = 0;
+    let targetMouseX = 0, targetMouseY = 0;
+
+    // Rastreamento suave do mouse para profundidade tridimensional
+    window.addEventListener('mousemove', (e) => {
+      const { innerWidth, innerHeight } = window;
+      targetMouseX = ((e.clientX / innerWidth) - 0.5) * 20;
+      targetMouseY = ((e.clientY / innerHeight) - 0.5) * 15;
+    });
+
+    function updateParallax() {
+      // Interpolação suave do mouse
+      mouseX += (targetMouseX - mouseX) * 0.08;
+      mouseY += (targetMouseY - mouseY) * 0.08;
+
+      const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+      const heroHeight = heroSection ? heroSection.offsetHeight : 700;
+      const isMobile = window.innerWidth <= 768;
+
+      // Executa os cálculos apenas enquanto a Hero estiver visível
+      if (scrollY <= heroHeight * 1.4) {
+        const progress = Math.min(scrollY / heroHeight, 1.2);
+
+        // 1. Título: No mobile não desloca para o lado para não sair da tela
+        if (heroTitle) {
+          const titleScale = isMobile ? 1 + (progress * 0.1) : 1 + (progress * 0.28);
+          const titleSlideX = isMobile ? (progress * 8) : ((progress * 80) + (mouseX * 0.4));
+          const titleSlideY = (progress * -20) + (mouseY * 0.3);
+          heroTitle.style.transform = `translate3d(${titleSlideX.toFixed(2)}px, ${titleSlideY.toFixed(2)}px, 0) scale(${titleScale.toFixed(3)})`;
+        }
+
+        // 2. Foto Avatar: Aumenta de tamanho com profundidade sem estourar limites
+        if (heroAvatarImg) {
+          const avatarScale = isMobile ? 1 + (progress * 0.25) : 1 + (progress * 0.48);
+          const avatarSlideX = isMobile ? 0 : ((progress * -25) - (mouseX * 0.7));
+          const avatarSlideY = (progress * 30) - (mouseY * 0.5);
+          const avatarOpacity = isMobile ? Math.min(0.28 + (progress * 0.2), 0.5) : Math.min(0.45 + (progress * 0.3), 0.75);
+          heroAvatarImg.style.transform = `translate3d(${avatarSlideX.toFixed(2)}px, ${avatarSlideY.toFixed(2)}px, 0) scale(${avatarScale.toFixed(3)})`;
+          heroAvatarImg.style.opacity = avatarOpacity.toFixed(2);
+        }
+
+        // 3. Grid de Metadados: Desliza sutilmente para baixo
+        if (heroMetaGrid) {
+          const metaSlideY = (progress * 30) + (mouseY * 0.2);
+          const metaOpacity = Math.max(1 - (progress * 0.85), 0.05);
+          heroMetaGrid.style.transform = `translate3d(0, ${metaSlideY.toFixed(2)}px, 0)`;
+          heroMetaGrid.style.opacity = metaOpacity.toFixed(2);
+        }
+      }
+
+      requestAnimationFrame(updateParallax);
+    }
+
+    requestAnimationFrame(updateParallax);
+  </script>
+</body>
+</html>
