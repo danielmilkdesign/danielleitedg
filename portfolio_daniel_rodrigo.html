@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DANIEL RODRIGO — Direção de Arte & Identidade Visual</title>
+  <title>DANIEL LEITE — Direção de Arte, Identidade Visual & UX/UI</title>
   
   <!-- Favicon -->
   <link rel="icon" type="image/png" sizes="32x32" href="FAVICON DG.png?v=2" />
@@ -11,22 +11,31 @@
   <link rel="apple-touch-icon" href="FAVICON DG.png?v=2" />
   <link rel="shortcut icon" href="FAVICON DG.png?v=2" type="image/png" />
   
-  <!-- Fontes: Syne (display brutalista/elegante) & Plus Jakarta Sans (leitura técnica) -->
+  <!-- Typography: Syne (Editorial/Brutalist), Plus Jakarta Sans & Space Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Syne:wght@700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
   
+  <!-- CDNs: Three.js, GSAP, ScrollTrigger, Lenis, Lucide Icons -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
   <style>
     :root {
       --bg: #0c0d0e;
       --bg-surface: #141619;
       --bg-card: #181b1f;
+      --bg-card-hover: #1f2329;
       --line: #262a30;
       --line-light: #383e47;
-      --text: #e5e7eb;
-      --text-muted: #848d9a;
-      --accent: #ff432a; /* Laranja editorial de alto impacto */
-      --accent-glow: rgba(255, 67, 42, 0.15);
+      --text: #ffffff;
+      --text-muted: #ffffff;
+      --accent: #ff432a; /* Institutional Editorial Red-Orange */
+      --accent-glow: rgba(255, 67, 42, 0.3);
+      --accent-soft: rgba(255, 67, 42, 0.12);
       --font-display: 'Syne', sans-serif;
       --font-body: 'Plus Jakarta Sans', sans-serif;
       --font-mono: 'Space Mono', monospace;
@@ -40,26 +49,95 @@
     }
 
     html {
-      scroll-behavior: smooth;
       background-color: var(--bg);
       color: var(--text);
       font-family: var(--font-body);
       font-size: 16px;
       line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--line);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--accent);
     }
 
     body {
       overflow-x: hidden;
-      cursor: crosshair;
-      background-image: 
-        radial-gradient(circle at 100% 0%, rgba(255, 67, 42, 0.04) 0%, transparent 40%),
-        radial-gradient(circle at 0% 50%, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
+      background-color: var(--bg);
+      position: relative;
     }
 
-    /* Utilitários & Tipografia */
+    /* 3D Wave Particle Canvas Background (Three.js) */
+    #webgl-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.85;
+    }
+
+    /* Interactive Magnetic Custom Cursor */
+    #custom-cursor {
+      position: fixed;
+      width: 16px;
+      height: 16px;
+      background: var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+                  height 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+                  background-color 0.3s ease,
+                  border-radius 0.3s ease;
+      mix-blend-mode: difference;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #custom-cursor-text {
+      color: #0c0d0e;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      white-space: nowrap;
+      text-transform: uppercase;
+    }
+
+    #custom-cursor.hovered {
+      width: 84px;
+      height: 84px;
+      background: #ffffff;
+      mix-blend-mode: normal;
+      box-shadow: 0 0 25px rgba(255, 67, 42, 0.5);
+    }
+
+    #custom-cursor.hovered #custom-cursor-text {
+      opacity: 1;
+    }
+
+    /* Utilities & Typography */
     .mono { font-family: var(--font-mono); }
     .display { font-family: var(--font-display); }
-    
+
     a {
       color: inherit;
       text-decoration: none;
@@ -68,24 +146,28 @@
     .container {
       max-width: 1440px;
       margin: 0 auto;
-      padding: 0 2rem;
+      padding: 0 12px !important;
+      position: relative;
+      z-index: 2;
     }
 
-    /* Barra Superior / Index Bar */
+    /* Header Navigation */
     header {
-      border-bottom: 1px solid var(--line);
       position: sticky;
       top: 0;
       background: rgba(12, 13, 14, 0.88);
-      backdrop-filter: blur(14px);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--line);
       z-index: 100;
+      transition: border-color 0.3s ease;
     }
 
     .nav-inner {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1.25rem 0;
+      padding: 1.2rem 0;
       font-size: 0.82rem;
       letter-spacing: 0.05em;
     }
@@ -97,16 +179,15 @@
     }
 
     .brand-logo-img {
-      height: 28px;
+      height: 32px;
       width: auto;
       display: block;
-      transition: opacity 0.2s ease, transform 0.25s ease;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .brand-mark:hover .brand-logo-img {
-      transform: scale(1.02);
+      transform: scale(1.06) rotate(-1deg);
     }
-
 
     .nav-links {
       display: flex;
@@ -114,27 +195,135 @@
       list-style: none;
     }
 
+    .hamburger-btn {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .hamburger-btn {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 28px;
+        height: 18px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        z-index: 120;
+        padding: 0;
+      }
+      .hamburger-btn span {
+        width: 100%;
+        height: 2px;
+        background-color: var(--text);
+        border-radius: 2px;
+        transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.3s ease;
+      }
+      .hamburger-btn.active span:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+        background-color: var(--accent);
+      }
+      .hamburger-btn.active span:nth-child(2) {
+        opacity: 0;
+      }
+      .hamburger-btn.active span:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+        background-color: var(--accent);
+      }
+
+      .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 78vw;
+        max-width: 300px;
+        height: 100vh;
+        background: rgba(14, 16, 19, 0.96);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border-left: 1px solid var(--line);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2.2rem;
+        padding: 2.5rem;
+        transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        z-index: 110;
+        font-size: 0.95rem;
+        box-shadow: -15px 0 50px rgba(0, 0, 0, 0.85);
+      }
+
+      .nav-links.active {
+        right: 0;
+      }
+
+      .status-badge {
+        display: none !important;
+      }
+    }
+
     .nav-links a {
       color: var(--text-muted);
-      transition: color 0.2s ease;
+      position: relative;
+      padding: 0.3rem 0;
+      transition: color 0.25s ease;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--accent);
+      transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .nav-links a:hover {
+      color: #fff;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255, 67, 42, 0.1);
+      border: 1px solid rgba(255, 67, 42, 0.3);
+      padding: 0.35rem 0.88rem;
+      border-radius: 100px;
+      font-size: 0.72rem;
       color: var(--accent);
     }
 
-    /* Hero Section: Editorial & Brutalista */
-    .hero-section {
-      padding: 6.5rem 0 4.5rem;
-      border-bottom: 1px solid var(--line);
-      position: relative;
-      overflow: hidden;
-      perspective: 1200px;
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      background-color: var(--accent);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--accent);
+      animation: pulseDot 2s infinite;
     }
 
-    .hero-section .container {
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(1.3); }
+    }
+
+    /* Hero Section with Integrated Background Image (avatarnovo.png) */
+    .hero-section {
+      padding: 5.5rem 0 4.5rem;
+      border-bottom: 1px solid var(--line);
       position: relative;
-      z-index: 2;
+      min-height: 88vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow: hidden;
     }
 
     .hero-avatar-bg {
@@ -142,150 +331,361 @@
       right: 0;
       top: 0;
       bottom: 0;
-      width: 58%;
+      width: 52%;
       max-width: 720px;
       pointer-events: none;
       z-index: 1;
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      overflow: visible;
+    }
+
+    @media (max-width: 768px) {
+      .hero-avatar-bg {
+        width: 100%;
+        opacity: 0.35;
+      }
     }
 
     .hero-avatar-bg img {
       height: 105%;
       width: auto;
-      max-width: 110%;
       object-fit: contain;
       object-position: right center;
-      filter: grayscale(100%) contrast(1.15) brightness(0.88);
-      opacity: 0.45;
-      mask-image: radial-gradient(ellipse 85% 85% at 75% 50%, rgba(0,0,0,1) 45%, rgba(0,0,0,0) 100%);
-      -webkit-mask-image: radial-gradient(ellipse 85% 85% at 75% 50%, rgba(0,0,0,1) 45%, rgba(0,0,0,0) 100%);
-      transform-origin: 75% 45%;
-      will-change: transform, opacity;
-      transition: transform 0.08s linear, opacity 0.3s ease;
+      filter: grayscale(100%) contrast(1.2) brightness(0.85);
+      opacity: 0.42;
+      mask-image: radial-gradient(ellipse 85% 85% at 75% 50%, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%);
+      -webkit-mask-image: radial-gradient(ellipse 85% 85% at 75% 50%, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%);
+      transition: opacity 0.5s ease, filter 0.5s ease;
     }
 
-    .hero-section:hover .hero-avatar-bg img {
-      opacity: 0.58;
-      filter: grayscale(100%) contrast(1.2) brightness(0.92);
+    .avatar-label-tag {
+      position: absolute;
+      right: 2.5rem;
+      top: 45%;
+      transform: translateY(-50%);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      opacity: 0.6;
+      z-index: 2;
     }
 
+    /* Hero Main Typography - Scroll Driven Kinetic Word Movement (vovi-23 style) */
     .hero-title {
-      font-size: clamp(2.4rem, 7vw, 7.5rem);
-      line-height: 0.96;
-      font-weight: 800;
-      letter-spacing: -0.04em;
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 5.2vw, 5.2rem);
+      line-height: 1.04;
+      font-weight: 900;
+      letter-spacing: -0.03em;
       text-transform: uppercase;
       margin-bottom: 3.5rem;
-      transform-origin: left center;
+      width: 100%;
+      max-width: 100%;
+      color: #ffffff;
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      overflow: visible;
+      padding: 0;
+    }
+
+    .hero-title .line {
+      display: inline-block;
       will-change: transform;
-      word-break: normal;
-      overflow-wrap: break-word;
-      transition: transform 0.08s linear;
+      white-space: nowrap;
+      transition: color 0.3s ease;
+      max-width: 100%;
+    }
+
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: clamp(1.5rem, 7.2vw, 3.2rem);
+        line-height: 1.08;
+        margin-bottom: 2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title {
+        font-size: clamp(1.35rem, 7.5vw, 2.4rem);
+        letter-spacing: -0.02em;
+      }
     }
 
     .hero-title span.outline {
       color: transparent;
-      -webkit-text-stroke: 1.5px var(--text-muted);
-      transition: all 0.3s ease;
+      -webkit-text-stroke: 1.8px rgba(255, 255, 255, 0.85);
+      transition: all 0.4s ease;
     }
 
     .hero-title:hover span.outline {
       color: var(--accent);
-      -webkit-text-stroke: 1.5px var(--accent);
+      -webkit-text-stroke: 1.8px var(--accent);
+      text-shadow: 0 0 35px rgba(255, 67, 42, 0.4);
     }
 
-    .hero-meta-grid {
-      display: grid;
-      grid-template-columns: 1.2fr 2fr 1.2fr;
-      gap: 3rem;
+    /* Kinetic Marquee Scroll-Driven Text Rows (vovi-23 style) */
+    .kinetic-text-strip {
+      padding: 2.5rem 0;
+      overflow: hidden;
       border-top: 1px solid var(--line);
-      padding-top: 2.5rem;
-      will-change: transform, opacity;
-      transition: transform 0.08s linear;
+      border-bottom: 1px solid var(--line);
+      background: rgba(18, 20, 23, 0.65);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      margin: 3.5rem 0 4.5rem;
+      position: relative;
+      z-index: 2;
+      width: 100%;
     }
 
-    .meta-box h4 {
-      font-size: 0.75rem;
-      color: var(--text-muted);
+    .kinetic-row {
+      display: flex;
+      gap: 2.5rem;
+      white-space: nowrap;
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 5.5vw, 5.5rem);
+      font-weight: 900;
       text-transform: uppercase;
-      letter-spacing: 0.12em;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      width: max-content;
+      will-change: transform;
+    }
+
+    @media (max-width: 768px) {
+      .kinetic-text-strip {
+        padding: 1.5rem 0;
+        margin: 2rem 0 3rem;
+      }
+      .kinetic-row {
+        font-size: clamp(1.3rem, 5.8vw, 2.4rem);
+        gap: 1.2rem;
+      }
+    }
+
+    .kinetic-row span.filled {
+      color: #ffffff;
+    }
+
+    .kinetic-row span.outlined {
+      color: transparent;
+      -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.45);
+    }
+
+    .kinetic-row span.accent-outline {
+      color: transparent;
+      -webkit-text-stroke: 1.5px var(--accent);
+      text-shadow: 0 0 25px var(--accent-glow);
+    }
+
+    /* Bottom Info & Buttons Row */
+    .hero-bottom-bar {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 3rem;
+      align-items: end;
+      position: relative;
+      z-index: 2;
+      padding-top: 2rem;
+    }
+
+    @media (max-width: 992px) {
+      .hero-bottom-bar {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+    }
+
+    .hero-info-blocks {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+    }
+
+    @media (max-width: 640px) {
+      .hero-info-blocks {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .info-block .block-tag {
+      font-family: var(--font-mono);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent);
       margin-bottom: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      will-change: transform;
+      display: inline-block;
     }
 
-    .meta-box p {
-      font-size: 0.95rem;
-      color: var(--text);
+    .info-block p {
+      font-size: 16px;
+      color: #ffffff;
+      line-height: 1.55;
+      max-width: 580px;
     }
 
-    .cta-actions {
+    .hero-cta-buttons {
       display: flex;
       flex-direction: column;
-      gap: 0.8rem;
-      align-items: flex-start;
+      gap: 0.9rem;
+      justify-self: end;
+      width: 100%;
+      max-width: 320px;
     }
 
-    .btn-action {
+    @media (max-width: 992px) {
+      .hero-cta-buttons {
+        justify-self: start;
+        flex-direction: row;
+        max-width: 100%;
+      }
+    }
+
+    .btn-primary {
       display: inline-flex;
       align-items: center;
-      gap: 0.75rem;
-      padding: 0.85rem 1.6rem;
+      justify-content: space-between;
+      gap: 1rem;
+      background: var(--accent);
+      color: #fff;
+      font-family: var(--font-mono);
       font-size: 0.82rem;
-      font-weight: 600;
+      font-weight: 700;
+      padding: 1.05rem 1.6rem;
+      border-radius: 3px;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      border: 1px solid var(--line-light);
-      background: var(--bg-surface);
-      color: var(--text);
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, background-color 0.3s ease;
+      box-shadow: 0 4px 20px var(--accent-glow);
     }
 
-    .btn-action.primary {
-      background: var(--accent);
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(255, 67, 42, 0.45);
+      background-color: #ff573f;
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      background: rgba(20, 22, 25, 0.8);
+      border: 1px solid var(--line-light);
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 1.05rem 1.6rem;
+      border-radius: 3px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;
+      backdrop-filter: blur(8px);
+    }
+
+    .btn-secondary:hover {
       border-color: var(--accent);
+      background: rgba(255, 67, 42, 0.12);
+      transform: translateY(-2px);
       color: #fff;
     }
 
-    .btn-action:hover {
-      transform: translateY(-2px);
-      border-color: var(--accent);
-      box-shadow: 0 6px 20px var(--accent-glow);
-    }
-
-    /* Seção de Filtros Técnicos */
-    .filter-section {
-      padding: 3rem 0 1.5rem;
+    /* Section Headers with Word Shift on Scroll */
+    .section-header {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-end;
+      padding: 5rem 0 3rem;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 3.5rem;
       flex-wrap: wrap;
       gap: 1.5rem;
     }
 
-    .section-label {
-      font-size: 0.75rem;
-      letter-spacing: 0.15em;
+    .section-title-wrap h2 {
+      font-size: clamp(1.6rem, 3.8vw, 3.2rem);
+      font-weight: 800;
       text-transform: uppercase;
-      color: var(--accent);
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      will-change: transform;
+      max-width: 100%;
+      word-break: normal;
+      overflow-wrap: break-word;
     }
 
-    .filters-nav {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
+    .section-title-wrap h2 .word-shift-left {
+      display: inline-block;
+      will-change: transform;
+      max-width: 100%;
     }
+
+    .section-title-wrap h2 .word-shift-right {
+      display: inline-block;
+      will-change: transform;
+      max-width: 100%;
+    }
+
+    @media (max-width: 768px) {
+      .section-title-wrap h2 {
+        font-size: clamp(1.3rem, 5.5vw, 2.2rem);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .section-title-wrap h2 {
+        font-size: clamp(1.1rem, 5.8vw, 1.7rem);
+      }
+    }
+
+    .section-title-wrap p {
+      color: var(--text-muted);
+      margin-top: 0.75rem;
+      font-size: 0.95rem;
+    }
+
+    .section-tag {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--accent);
+      background: rgba(255, 67, 42, 0.08);
+      border: 1px solid rgba(255, 67, 42, 0.2);
+      padding: 0.4rem 0.9rem;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+
+    /* Filter Controls Bar */
+    .filter-bar {
+      display: flex;
+      gap: 0.75rem;
+      overflow-x: auto;
+      padding-bottom: 1rem;
+      margin-bottom: 3rem;
+      border-bottom: 1px solid var(--line);
+      scrollbar-width: none;
+    }
+    .filter-bar::-webkit-scrollbar { display: none; }
 
     .filter-btn {
-      background: transparent;
+      background: var(--bg-surface);
       border: 1px solid var(--line);
       color: var(--text-muted);
       font-family: var(--font-mono);
       font-size: 0.75rem;
-      padding: 0.55rem 1.1rem;
+      padding: 0.6rem 1.2rem;
+      border-radius: 4px;
       cursor: pointer;
-      transition: all 0.2s ease;
+      white-space: nowrap;
+      transition: all 0.3s ease;
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
@@ -293,976 +693,1659 @@
     .filter-btn:hover, .filter-btn.active {
       color: #fff;
       border-color: var(--accent);
-      background: rgba(255, 67, 42, 0.08);
+      background: rgba(255, 67, 42, 0.12);
     }
 
-    /* Galeria de Projetos / Architecture */
-    .gallery-grid {
+    /* Projects Grid Layout (Structure preserved, with 3D Tilt + Spotlight) */
+    .projects-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 400px), 1fr));
       gap: 2.5rem;
-      padding-bottom: 6rem;
+    }
+
+    @media (max-width: 768px) {
+      .projects-grid {
+        grid-template-columns: 1fr;
+        gap: 1.8rem;
+      }
     }
 
     .project-card {
-      background: var(--bg-surface);
+      background: var(--bg-card);
       border: 1px solid var(--line);
-      position: relative;
+      border-radius: 8px;
       overflow: hidden;
-      transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
       display: flex;
       flex-direction: column;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: border-color 0.35s ease, box-shadow 0.35s ease;
       cursor: pointer;
     }
 
-    .project-card:hover {
-      border-color: var(--line-light);
-      transform: translateY(-4px);
-      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
-    }
-
-    .project-card:hover .btn-view-case {
-      background: #ff5740;
-      border-color: #ff5740;
-      box-shadow: 0 8px 24px rgba(255, 67, 42, 0.4);
-    }
-
-    .project-preview {
+    /* Reflective Spotlight Overlay Follower */
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
-      aspect-ratio: 1 / 1;
-      height: auto;
+      height: 100%;
+      background: radial-gradient(
+        550px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+        rgba(255, 67, 42, 0.16),
+        transparent 50%
+      );
+      opacity: 0;
+      pointer-events: none;
+      z-index: 5;
+      transition: opacity 0.3s ease;
+    }
+
+    .project-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.7), 0 0 35px var(--accent-glow);
+    }
+
+    .project-card:hover::before {
+      opacity: 1;
+    }
+
+    /* Thumbnail Container - Full Edge-to-Edge Proportional Coverage without Text Clipping */
+    .card-thumb-wrap {
+      width: 100%;
+      aspect-ratio: 4 / 3;
       position: relative;
-      background: #111316;
+      overflow: hidden;
+      background: #0e1014;
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
+      padding: 0;
       border-bottom: 1px solid var(--line);
     }
 
-    .project-preview img {
+    .card-thumb-wrap img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
       object-position: center;
-      display: block;
-      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      border-radius: 0;
+      box-shadow: none;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
+      filter: brightness(0.96) contrast(1.04);
     }
 
-    .project-card:hover .project-preview img {
+    .project-card:hover .card-thumb-wrap img {
       transform: scale(1.03);
+      filter: brightness(1.02) contrast(1.08);
     }
 
-    /* Ilustrações gráficas conceituais para os cases (Zero AI Slop) */
-    .mockup-art {
-      width: 88%;
-      height: 82%;
-      border: 1px dashed var(--line-light);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+    .card-badge {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      background: rgba(9, 10, 11, 0.88);
+      border: 1px solid var(--line);
+      color: var(--accent);
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: 3px;
+      z-index: 2;
+    }
+
+    .card-content {
       padding: 1.8rem;
-      position: relative;
-      transition: transform 0.5s ease;
-    }
-
-    .project-card:hover .mockup-art {
-      transform: scale(1.02);
-    }
-
-    .case-1-theme { background: linear-gradient(135deg, #182026 0%, #0e1217 100%); }
-    .case-2-theme { background: linear-gradient(135deg, #2b1d1f 0%, #171112 100%); }
-    .case-3-theme { background: linear-gradient(135deg, #2a231b 0%, #15120d 100%); }
-    .case-4-theme { background: linear-gradient(135deg, #14231f 0%, #0b1412 100%); }
-
-    .project-info {
-      padding: 2rem;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       flex-grow: 1;
     }
 
-    .project-header-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.8rem;
-    }
-
-    .project-num {
-      font-size: 0.75rem;
-      color: var(--accent);
-    }
-
-    .project-category {
+    .card-cat {
+      font-family: var(--font-mono);
       font-size: 0.72rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.75rem;
+      line-height: 1.25;
+    }
+
+    .card-desc {
       color: var(--text-muted);
-      letter-spacing: 0.1em;
+      font-size: 0.88rem;
+      line-height: 1.55;
+      margin-bottom: 1.25rem;
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .tag-item {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--line);
+      padding: 0.25rem 0.6rem;
+      border-radius: 3px;
+    }
+
+    .card-footer-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: auto;
+      transition: gap 0.3s ease;
+    }
+
+    .project-card:hover .card-footer-link {
+      gap: 0.8rem;
+    }
+
+    /* Trajectory Timeline Section */
+    .timeline-section {
+      padding: 4rem 0;
+    }
+
+    .trajectory-wrapper {
+      display: grid;
+      grid-template-columns: minmax(280px, 420px) 1fr;
+      gap: 3rem;
+      align-items: center;
+      margin-bottom: 3.5rem;
+    }
+
+    .trajectory-avatar-card {
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+      aspect-ratio: 4 / 5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    }
+
+    .trajectory-avatar-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      filter: contrast(1.05) brightness(0.95);
+      transition: transform 0.5s ease, filter 0.5s ease;
+    }
+
+    .trajectory-avatar-card:hover img {
+      transform: scale(1.03);
+      filter: contrast(1.08) brightness(1);
+    }
+
+    .trajectory-intro {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      margin-bottom: 2.2rem;
+      font-size: 0.98rem;
+      color: var(--text);
+      line-height: 1.65;
+    }
+
+    @media (max-width: 992px) {
+      .trajectory-wrapper {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      .trajectory-avatar-card {
+        max-width: 420px;
+        margin: 0 auto;
+        width: 100%;
+      }
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 0;
+    }
+
+    .stat-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--accent);
+      padding: 1.8rem;
+      border-radius: 4px;
+      transition: transform 0.3s ease, border-color 0.3s ease;
+      will-change: transform;
+    }
+
+    .stat-box:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+    }
+
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+      will-change: transform;
+      display: inline-block;
+    }
+
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--text-muted);
       text-transform: uppercase;
     }
 
-    .project-title {
-      font-size: 1.6rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: 0.75rem;
+    .timeline-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
     }
 
-    .project-desc {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      line-height: 1.6;
-      margin-bottom: 1.8rem;
-    }
-
-    .project-footer-tags {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-      padding-top: 1.2rem;
-      border-top: 1px solid var(--line);
-    }
-
-    .tag-pill {
-      font-size: 0.7rem;
-      background: var(--bg-card);
+    .timeline-card {
+      background: var(--bg-surface);
       border: 1px solid var(--line);
-      padding: 0.25rem 0.6rem;
-      color: var(--text-muted);
+      padding: 2rem;
+      border-radius: 6px;
+      position: relative;
+      transition: border-color 0.3s ease, transform 0.3s ease;
     }
 
-    /* Seção Sobre / Trajetória */
-    .about-section {
-      border-top: 1px solid var(--line);
-      padding: 6rem 0;
-    }
-
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1.5fr;
-      gap: 4rem;
-    }
-
-    .about-title {
-      font-size: 2.8rem;
-      line-height: 1.05;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-    }
-
-    .about-content p {
-      font-size: 1.05rem;
-      color: #cbd5e1;
-      margin-bottom: 1.8rem;
-      line-height: 1.7;
-    }
-
-    .timeline {
-      margin-top: 3rem;
-      border-top: 1px solid var(--line);
-    }
-
-    .timeline-item {
-      display: grid;
-      grid-template-columns: 140px 1fr;
-      gap: 1.5rem;
-      padding: 1.6rem 0;
-      border-bottom: 1px solid var(--line);
+    .timeline-card:hover {
+      border-color: var(--line-light);
+      transform: translateY(-3px);
     }
 
     .timeline-year {
-      font-size: 0.8rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
       color: var(--accent);
+      margin-bottom: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      will-change: transform;
+      display: inline-block;
     }
 
     .timeline-role {
-      font-weight: 600;
-      font-size: 0.95rem;
-      margin-bottom: 0.25rem;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.4rem;
     }
 
     .timeline-company {
-      font-size: 0.82rem;
+      font-size: 0.9rem;
       color: var(--text-muted);
+      margin-bottom: 1.2rem;
     }
 
-    /* Rodapé com Fechamento Tipográfico */
-    footer {
-      border-top: 1px solid var(--line);
-      background: #08090a;
-      padding: 5rem 0 3rem;
-    }
-
-    .footer-cta {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      margin-bottom: 5rem;
-      flex-wrap: wrap;
-      gap: 2rem;
-    }
-
-    .footer-cta h2 {
-      font-size: clamp(2rem, 5vw, 4.5rem);
-      line-height: 1;
-      font-weight: 800;
-      letter-spacing: -0.04em;
-    }
-
-    .footer-bottom {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-top: 2rem;
-      border-top: 1px solid var(--line);
-      font-size: 0.78rem;
+    .timeline-desc {
+      font-size: 0.88rem;
       color: var(--text-muted);
-      flex-wrap: wrap;
-      gap: 1rem;
+      line-height: 1.6;
     }
 
-    .footer-links {
-      display: flex;
-      gap: 2rem;
-      list-style: none;
-    }
-
-    .footer-links a:hover {
-      color: var(--accent);
-    }
-
-    .btn-view-case {
-      display: inline-flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      padding: 0.9rem 1.25rem;
-      margin-top: 1.5rem;
-      background: var(--accent);
-      border: 1px solid var(--accent);
-      color: #ffffff;
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      cursor: pointer;
-      box-shadow: 0 4px 14px var(--accent-glow);
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .btn-view-case:hover {
-      background: #ff5740;
-      border-color: #ff5740;
-      color: #ffffff;
-      box-shadow: 0 8px 24px rgba(255, 67, 42, 0.4);
-      transform: translateY(-2px);
-    }
-
-    /* Modal de Inspeção de Case / Tela de Artes */
-    .case-modal {
+    /* Modal System for Case Arts */
+    .case-modal-overlay {
       position: fixed;
-      inset: 0;
-      background: rgba(6, 7, 8, 0.92);
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(9, 10, 11, 0.94);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      z-index: 999;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 1.5rem;
-      opacity: 0;
-      transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .case-modal.active {
+      z-index: 1000;
       display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+      padding: 2rem;
+    }
+
+    .case-modal-overlay.active {
       opacity: 1;
+      pointer-events: all;
     }
 
-    .modal-box {
+    .modal-container {
       background: var(--bg-surface);
-      border: 1px solid var(--line-light);
-      max-width: 1100px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
       width: 100%;
+      max-width: 1200px;
       max-height: 90vh;
-      overflow-y: auto;
-      position: relative;
-      padding: 2.5rem;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85);
-      transform: translateY(20px) scale(0.98);
-      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .case-modal.active .modal-box {
-      transform: translateY(0) scale(1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9);
     }
 
     .modal-header {
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid var(--line);
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 2rem;
-      padding-bottom: 1.5rem;
-      border-bottom: 1px solid var(--line);
-      gap: 1.5rem;
-      flex-wrap: wrap;
+      align-items: center;
+      background: rgba(12, 13, 14, 0.6);
+    }
+
+    .modal-title-wrap h3 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #fff;
     }
 
     .modal-close-btn {
       background: transparent;
       border: 1px solid var(--line);
       color: var(--text-muted);
-      font-family: var(--font-mono);
-      font-size: 0.78rem;
-      padding: 0.6rem 1.1rem;
-      cursor: pointer;
-      display: inline-flex;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
       align-items: center;
-      gap: 0.5rem;
-      transition: all 0.2s ease;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      flex-shrink: 0;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.25s ease;
     }
 
     .modal-close-btn:hover {
       background: var(--accent);
-      border-color: var(--accent);
       color: #fff;
+      border-color: var(--accent);
+    }
+
+    .modal-body {
+      padding: 2rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .modal-desc-box {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--accent);
+      padding: 1.4rem;
+      border-radius: 4px;
+      font-size: 0.92rem;
+      color: var(--text);
+      line-height: 1.6;
     }
 
     .modal-arts-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.5rem;
-      margin-top: 2rem;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 2rem;
     }
 
     .modal-art-card {
       background: var(--bg-card);
       border: 1px solid var(--line);
+      border-radius: 6px;
       overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      cursor: pointer;
-      transition: all 0.3s ease;
+      transition: transform 0.3s ease, border-color 0.3s ease;
+      cursor: zoom-in;
     }
 
     .modal-art-card:hover {
+      transform: translateY(-4px);
       border-color: var(--accent);
-      transform: translateY(-3px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-    }
-
-    .modal-art-card .art-img-wrapper {
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      background: #0e1013;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
     .modal-art-card img {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.4s ease;
+      height: auto;
+      display: block;
+      object-fit: contain;
     }
 
-    .modal-art-card:hover img {
-      transform: scale(1.04);
-    }
-
-    .modal-art-card .art-caption {
-      padding: 0.85rem 1rem;
+    .modal-art-caption {
+      padding: 1rem 1.2rem;
+      font-family: var(--font-mono);
       font-size: 0.75rem;
       color: var(--text-muted);
-      font-family: var(--font-mono);
       border-top: 1px solid var(--line);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      background: rgba(0, 0, 0, 0.2);
     }
 
-    /* Lightbox Viewer para zoom */
-    .lightbox-viewer {
+    /* Lightbox Zoom Overlay */
+    .lightbox-overlay {
       position: fixed;
-      inset: 0;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
       background: rgba(0, 0, 0, 0.96);
-      z-index: 1100;
-      display: none;
-      align-items: center;
+      z-index: 2000;
+      display: flex;
       justify-content: center;
-      padding: 2rem;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
       cursor: zoom-out;
     }
 
-    .lightbox-viewer.active {
-      display: flex;
+    .lightbox-overlay.active {
+      opacity: 1;
+      pointer-events: all;
     }
 
-    .lightbox-viewer img {
-      max-width: 90vw;
-      max-height: 90vh;
+    .lightbox-overlay img {
+      max-width: 92vw;
+      max-height: 92vh;
       object-fit: contain;
-      border: 1px solid var(--line-light);
-      box-shadow: 0 20px 50px rgba(0,0,0,0.9);
+      border-radius: 4px;
+      box-shadow: 0 0 50px rgba(0, 0, 0, 0.9);
     }
 
-    /* Responsividade Robusta para Tablet & Mobile */
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 6rem 0 3rem;
+      background: #070809;
+      position: relative;
+      z-index: 2;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 4rem;
+      margin-bottom: 4rem;
+    }
+
     @media (max-width: 900px) {
-      .gallery-grid {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-      }
-      .hero-avatar-bg {
-        width: 80%;
-        max-width: 420px;
-        opacity: 0.28;
-        right: -8%;
-      }
-      .hero-meta-grid {
-        grid-template-columns: 1fr;
-        gap: 1.8rem;
-      }
-      .about-grid {
+      .footer-grid {
         grid-template-columns: 1fr;
         gap: 2.5rem;
       }
-      .timeline-item {
-        grid-template-columns: 110px 1fr;
+    }
+
+    .footer-brand h3 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+    }
+
+    .footer-brand p {
+      color: var(--text-muted);
+      max-width: 450px;
+      font-size: 0.92rem;
+    }
+
+    .footer-col h4 {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 1.2rem;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      transition: color 0.2s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid var(--line);
+      padding-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    /* Footer Primary Buttons (Conectar) */
+    .footer-buttons-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      margin-top: 0.5rem;
+      width: 100%;
+      max-width: 320px;
+    }
+
+    .footer-btn-primary {
+      width: 100%;
+      padding: 0.9rem 1.25rem;
+      font-size: 0.78rem;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .btn-footer-secondary {
+      background: rgba(20, 22, 25, 0.9);
+      border: 1px solid var(--line-light);
+      color: var(--text);
+      box-shadow: none;
+    }
+
+    .btn-footer-secondary:hover {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+      box-shadow: 0 4px 20px var(--accent-glow);
+    }
+
+    /* Mobile Enhancements: Padding 12px, Avatar Alignment to Right Edge, Dynamic Card Image Aspect Ratios & White Text */
+    @media (max-width: 768px) {
+      .container {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+      }
+
+      .card-content {
+        padding: 1.5rem 12px !important;
+      }
+
+      /* Avatar Photo Aligned to Right Edge & Width Adjusted */
+      .hero-avatar-bg {
+        width: 75% !important;
+        right: 0 !important;
+        left: auto !important;
+        justify-content: flex-end !important;
+        opacity: 0.55 !important;
+      }
+
+      .hero-avatar-bg img {
+        width: 100% !important;
+        max-width: 280px !important;
+        height: auto !important;
+        object-fit: contain !important;
+        object-position: right center !important;
+        margin-left: auto !important;
+        margin-right: 0 !important;
+        display: block !important;
+      }
+
+      .trajectory-wrapper {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-end !important;
+      }
+
+      .trajectory-avatar-card {
+        width: 85% !important;
+        max-width: 320px !important;
+        margin-left: auto !important;
+        margin-right: 0 !important;
+        align-self: flex-end !important;
+        aspect-ratio: auto !important;
+      }
+
+      .trajectory-avatar-card img {
+        width: 100% !important;
+        height: auto !important;
+        object-fit: contain !important;
+        object-position: right top !important;
+        display: block !important;
+      }
+
+      /* Card Image Thumbnails Sized to Natural Image Aspect Ratio (Taller or Wider) */
+      .card-thumb-wrap {
+        aspect-ratio: auto !important;
+        height: auto !important;
+        max-height: none !important;
+        background: transparent !important;
+      }
+
+      .card-thumb-wrap img {
+        height: auto !important;
+        max-height: 540px !important;
+        width: 100% !important;
+        object-fit: contain !important;
+        display: block !important;
+      }
+
+      /* Info Block Font Sizes & P Text on Mobile (16px) */
+      .info-block .block-tag {
+        font-size: 1.25rem !important;
+      }
+
+      p, .info-block p, .trajectory-intro p, .card-desc, .footer-brand p, 
+      .section-title-wrap p, .timeline-desc, .modal-desc-box {
+        font-size: 16px !important;
+        line-height: 1.55 !important;
+      }
+
+      /* Prevent Stats Numbers 500+, 100% Clipping on Mobile */
+      .stats-row {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.75rem !important;
+      }
+
+      .stat-box {
+        padding: 1.1rem 0.75rem !important;
+        overflow: hidden !important;
+      }
+
+      .stat-number {
+        font-size: clamp(1.8rem, 6.5vw, 2.5rem) !important;
+        margin-bottom: 0.2rem !important;
+        white-space: nowrap !important;
+      }
+
+      .stat-label {
+        font-size: 0.7rem !important;
+        letter-spacing: 0.03em !important;
+      }
+
+      /* Footer Bottom Visibility & Centering on Mobile */
+      .footer-bottom {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        gap: 1.2rem !important;
+        padding-top: 2.2rem !important;
+        padding-bottom: 2.2rem !important;
+        margin-top: 2rem !important;
+        border-top: 1px solid var(--line) !important;
+        color: #ffffff !important;
+        font-size: 0.82rem !important;
+        font-weight: 600 !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        position: relative !important;
+        z-index: 10 !important;
+      }
+
+      .footer-bottom div {
+        color: #ffffff !important;
+        opacity: 1 !important;
+        width: 100% !important;
+        display: flex !important;
+        justify-content: center !important;
+      }
+
+      #backToTopBtn {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 100% !important;
+        max-width: 280px !important;
+        padding: 0.85rem 1.4rem !important;
+        background: #181b1f !important;
+        border: 1px solid var(--accent) !important;
+        color: #ffffff !important;
+        font-size: 0.8rem !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.08em !important;
+        border-radius: 4px !important;
+        box-shadow: 0 4px 15px rgba(255, 67, 42, 0.25) !important;
+        margin-top: 0.5rem !important;
+        cursor: pointer !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
       }
     }
 
-    @media (max-width: 680px) {
-      .container {
-        padding: 0 1.25rem;
-      }
+    /* Floating Fixed Back To Top Button (Mobile & Desktop) */
+    .floating-back-to-top {
+      position: fixed;
+      bottom: 24px;
+      right: 20px;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: #181b1f;
+      border: 1px solid var(--accent);
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      box-shadow: 0 4px 20px rgba(255, 67, 42, 0.4), 0 0 15px rgba(0, 0, 0, 0.8);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(20px);
+      transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease, background-color 0.3s ease;
+      cursor: pointer;
+      pointer-events: auto;
+    }
 
-      /* Header Mobile */
-      .nav-inner {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.85rem;
-        padding: 0.9rem 0;
-      }
-      .brand-logo-img {
-        height: 24px;
-      }
-      .nav-links {
-        width: 100%;
-        gap: 1.2rem;
-        justify-content: flex-start;
-        font-size: 0.72rem;
-        flex-wrap: wrap;
-      }
+    .floating-back-to-top.visible {
+      opacity: 1 !important;
+      visibility: visible !important;
+      transform: translateY(0) !important;
+    }
 
-      /* Hero Mobile */
-      .hero-section {
-        padding: 4rem 0 2.5rem;
-      }
-      .hero-title {
-        font-size: clamp(1.8rem, 8.5vw, 2.8rem);
-        letter-spacing: -0.03em;
-        line-height: 1.02;
-        margin-bottom: 2rem;
-      }
-      .hero-avatar-bg {
-        width: 85%;
-        max-width: 300px;
-        right: -10%;
-        opacity: 0.25;
-      }
-      .hero-meta-grid {
-        padding-top: 1.5rem;
-        gap: 1.5rem;
-      }
-      .meta-box p {
-        font-size: 0.88rem;
-      }
-      .cta-actions {
-        width: 100%;
-      }
-      .cta-actions .btn-action {
-        width: 100%;
-        justify-content: center;
-      }
+    .floating-back-to-top:hover {
+      background: var(--accent);
+      color: #ffffff;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 25px rgba(255, 67, 42, 0.6);
+    }
 
-      /* Filtros Mobile */
-      .filter-section {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.8rem;
-        padding: 2rem 0 1.2rem;
-      }
-      .filters-nav {
-        width: 100%;
-        display: flex;
-        overflow-x: auto;
-        flex-wrap: nowrap;
-        padding-bottom: 0.4rem;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-      }
-      .filters-nav::-webkit-scrollbar {
-        display: none;
-      }
-      .filter-btn {
-        flex-shrink: 0;
-        white-space: nowrap;
-        font-size: 0.7rem;
-        padding: 0.45rem 0.8rem;
-      }
+    .floating-back-to-top span {
+      font-size: 0.55rem;
+      font-weight: 700;
+      line-height: 1;
+      margin-top: 2px;
+      letter-spacing: 0.05em;
+    }
 
-      /* Cards de Cases */
-      .project-info {
-        padding: 1.4rem;
-      }
-      .project-title {
-        font-size: 1.3rem;
-      }
-      .project-desc {
-        font-size: 0.84rem;
-      }
-
-      /* Trajetória / Sobre */
-      .about-section {
-        padding: 3.5rem 0;
-      }
-      .about-title {
-        font-size: 2rem;
-      }
-      .timeline-item {
-        grid-template-columns: 1fr;
-        gap: 0.3rem;
-        padding: 1.2rem 0;
-      }
-
-      /* Footer Mobile */
-      footer {
-        padding: 3.5rem 0 2rem;
-      }
-      .footer-cta {
-        margin-bottom: 2.5rem;
-        gap: 1.5rem;
-      }
-      .footer-cta h2 {
-        font-size: clamp(1.7rem, 6vw, 2.4rem);
-      }
-      .footer-bottom {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem;
-      }
-      .footer-links {
-        flex-wrap: wrap;
-        gap: 1rem;
-      }
-
-      /* Modal Mobile */
-      .case-modal {
-        padding: 0.75rem;
-      }
-      .modal-box {
-        padding: 1.5rem 1.1rem;
-        max-height: 94vh;
-      }
-      .modal-header {
-        margin-bottom: 1.2rem;
-        padding-bottom: 1rem;
-      }
-      .modal-arts-grid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-      }
+    /* All Grey Text Forced to White (#ffffff) Across the Site */
+    .card-desc, .tag-item, .stat-label, .timeline-company, .timeline-desc, 
+    .footer-brand p, .footer-links a, .footer-bottom, .section-title-wrap p, 
+    .avatar-label-tag, .filter-btn, .modal-art-caption, .nav-links a {
+      color: #ffffff !important;
     }
   </style>
 </head>
 <body>
 
-  <!-- Topo / Metadados de Sistema -->
+  <!-- 3D Wave Particle Canvas Background (Three.js) -->
+  <canvas id="webgl-bg"></canvas>
+
+  <!-- Interactive Magnetic Custom Cursor -->
+  <div id="custom-cursor">
+    <span id="custom-cursor-text">VER</span>
+  </div>
+
+  <!-- Floating Back to Top Button (Fixed on Mobile & Desktop) -->
+  <button id="floatingBackToTopBtn" aria-label="Subir ao topo" class="floating-back-to-top mono">
+    <i data-lucide="arrow-up"></i>
+    <span>TOPO</span>
+  </button>
+
+  <!-- Header Navigation -->
   <header>
     <div class="container">
-      <div class="nav-inner">
-        <div class="brand-mark">
-          <img src="LOGO DANIEL DG.svg" alt="Daniel Rodrigo — Direção de Arte & Identidade Visual" class="brand-logo-img" />
-        </div>
+      <nav class="nav-inner">
+        <a href="#" class="brand-mark magnetic-target" data-cursor-text="DANIEL LEITE">
+          <img src="LOGO DANIEL DG.svg" alt="Daniel Leite Logo" class="brand-logo-img" />
+        </a>
 
-        <nav>
-          <ul class="nav-links mono">
-            <li><a href="#projetos">01_TRABALHOS</a></li>
-            <li><a href="#sobre">02_TRAJETÓRIA</a></li>
-            <li><a href="#contato">03_CONTATO</a></li>
-          </ul>
-        </nav>
-      </div>
+        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Abrir Menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <ul class="nav-links mono" id="navLinks">
+          <li><a href="#cases" class="magnetic-target" data-cursor-text="VER PORTFÓLIO">// PORTFÓLIO</a></li>
+          <li><a href="#trajetoria" class="magnetic-target" data-cursor-text="14 ANOS EXP">// TRAJETÓRIA</a></li>
+          <li><a href="#contato" class="magnetic-target" data-cursor-text="FALAR AGORA">// CONTATO</a></li>
+        </ul>
+
+        <div class="status-badge mono">
+          <span class="status-dot"></span>
+          <span>DISPONÍVEL PARA PROJETOS</span>
+        </div>
+      </nav>
     </div>
   </header>
 
   <main>
-    <!-- Hero Principal -->
+    <!-- Hero Section with Integrated Background Image (avatarnovo.png) -->
     <section class="hero-section">
-      <div class="hero-avatar-bg" aria-hidden="true">
-        <img src="avatarnovo.png" alt="Daniel Rodrigo - Retrato" />
+      <div class="hero-avatar-bg">
+        <img src="avatarnovo.png" alt="Daniel Leite - Retrato" id="heroAvatar" />
+        <span class="avatar-label-tag">Daniel Leite — Retrato</span>
       </div>
+
       <div class="container">
-        <h1 class="hero-title display">
-          DESIGN VISUAL<br>
-          <span class="outline">ESTRATÉGICO</span> &<br>
-          IDENTIDADE.
+        <h1 class="hero-title display" id="heroTitle">
+          <div class="line" data-shift="-6">DESIGN</div>
+          <div class="line" data-shift="5">VISUAL</div>
+          <div class="line" data-shift="-7"><span class="outline">ESTRATÉGICO</span></div>
+          <div class="line" data-shift="4">&amp;</div>
+          <div class="line" data-shift="-5">IDENTIDADE.</div>
         </h1>
 
-        <div class="hero-meta-grid">
-          <div class="meta-box">
-            <h4 class="mono">// ESPECIALIDADE</h4>
-            <p>Direção de arte, criação de sistemas de marcas (KV/Branding) e design de conteúdo de alta densidade cognitiva para B2B e B2C.</p>
-          </div>
-          
-          <div class="meta-box">
-            <h4 class="mono">// VISÃO DE DESIGN</h4>
-            <p>Fusão entre precisão tipográfica suíça, impacto visual e os fundamentos de UX. Nada de ruído visual descartável: forma a serviço da mensagem e da conversão.</p>
+        <!-- Bottom Row: 2 Info Columns + 2 Action Buttons -->
+        <div class="hero-bottom-bar">
+          <div class="hero-info-blocks">
+            <div class="info-block">
+              <div class="block-tag">// ESPECIALIDADE</div>
+              <p>Direção de arte, criação de sistemas de marcas (KV/Branding) e design de conteúdo de alta densidade cognitiva para B2B e B2C.</p>
+            </div>
+            <div class="info-block">
+              <div class="block-tag">// VISÃO DE DESIGN</div>
+              <p>Fusão entre precisão tipográfica suíça, impacto visual e os fundamentos de UX. Nada de ruído visual descartável: forma a serviço da mensagem e da conversão.</p>
+            </div>
           </div>
 
-          <div class="meta-box cta-actions">
-            <a href="https://api.whatsapp.com/send/?phone=5592992552746" target="_blank" class="btn-action primary mono">
-              Iniciar Projeto ↗
+          <div class="hero-cta-buttons">
+            <a href="https://wa.me/5592991316641?text=Ol%C3%A1%20Daniel,%20vi%20seu%20portf%C3%B3lio%20e%20gostaria%20de%20conversar%20sobre%20um%20projeto." target="_blank" class="btn-primary magnetic-target" data-cursor-text="WHATSAPP">
+              <span>INICIAR PROJETO</span>
+              <i data-lucide="arrow-up-right"></i>
             </a>
-            <a href="https://behance.net/danielrodrigo" target="_blank" class="btn-action mono">
-              Behance Index ↗
+            <a href="#cases" class="btn-secondary magnetic-target" data-cursor-text="INDEX">
+              <span>BEHANCE INDEX</span>
+              <i data-lucide="arrow-up-right"></i>
             </a>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Barra de Filtros de Projetos -->
-    <div class="container" id="projetos">
-      <div class="filter-section">
-        <span class="section-label mono">// ÍNDICE DE CASES SELECIONADOS</span>
-        <div class="filters-nav">
-          <button class="filter-btn active" data-filter="all">[ TODOS (06) ]</button>
-          <button class="filter-btn" data-filter="social">CARROSSÉIS & SOCIAL</button>
-          <button class="filter-btn" data-filter="branding">IDENTIDADE & MARCA</button>
-          <button class="filter-btn" data-filter="keyvisual">KEY VISUAL & CAMPANHAS</button>
-          <button class="filter-btn" data-filter="interface">DESIGN DE INTERFACES</button>
-          <button class="filter-btn" data-filter="compilacao">COMPILAÇÃO DE CASES</button>
-        </div>
+    <!-- Kinetic Marquee Strip 1: Scroll-Driven Horizontal Text Rows (vovi-23 style) -->
+    <div class="kinetic-text-strip" id="marqueeStrip1">
+      <div class="kinetic-row row-left-1">
+        <span class="filled">DIREÇÃO DE ARTE</span> — 
+        <span class="outlined">IDENTIDADE VISUAL</span> — 
+        <span class="filled">UX/UI STRATEGY</span> — 
+        <span class="accent-outline">BRANDING</span> — 
+        <span class="filled">KEY VISUAL</span> — 
+        <span class="outlined">DIREÇÃO DE ARTE</span> — 
+        <span class="filled">IDENTIDADE VISUAL</span>
       </div>
-
-      <!-- Grade de Projetos -->
-      <div class="gallery-grid">
-        
-        <!-- Case 1: CEI Contab -->
-        <article class="project-card" data-category="social" data-case="cei">
-          <div class="project-preview case-1-theme">
-            <img src="CARD 1.png" alt="Case 01 - CEI Contab" />
-          </div>
-          <div class="project-info">
-            <div>
-              <div class="project-header-meta mono">
-                <span class="project-num">#CASE_01</span>
-                <span class="project-category">Conteúdo B2B & Social Media</span>
-              </div>
-              <h3 class="project-title">CEI Contab — Tradução de Complexidade Corporativa</h3>
-              <p class="project-desc">
-                Transformação de normativas fiscais áridas e regras contábeis em narrativas visuais modulares. Estruturação de infográficos em carrossel e tipografia expressiva para converter audiência qualificada no LinkedIn e Instagram.
-              </p>
-            </div>
-            <div class="project-footer-tags mono">
-              <span class="tag-pill">Carrosséis Estratégicos</span>
-              <span class="tag-pill">Design Editorial Digital</span>
-              <span class="tag-pill">B2B Content</span>
-              <span class="tag-pill">Figma + Illustrator</span>
-            </div>
-            <button class="btn-view-case mono" data-case="cei">
-              <span>VER MAIS ARTES</span>
-              <span>↗</span>
-            </button>
-          </div>
-        </article>
-
-        <!-- Case 2: Floraeto -->
-        <article class="project-card" data-category="keyvisual" data-case="floraeto">
-          <div class="project-preview case-2-theme">
-            <img src="case2_floraeto.jpg" alt="Case 02 - Floraeto" />
-          </div>
-          <div class="project-info">
-            <div>
-              <div class="project-header-meta mono">
-                <span class="project-num">#CASE_02</span>
-                <span class="project-category">Key Visual & Sazonal</span>
-              </div>
-              <h3 class="project-title">Floraeto — Campanhas Varejo & Eventos</h3>
-              <p class="project-desc">
-                Criação de identidades visuais efêmeras para momentos comemorativos (como Dia das Mães). Equilíbrio entre elegância botânica e apelo comercial direto para conversão em PDV e feed social.
-              </p>
-            </div>
-            <div class="project-footer-tags mono">
-              <span class="tag-pill">Campanhas Sazonais</span>
-              <span class="tag-pill">Direção de Arte</span>
-              <span class="tag-pill">Varejo de Luxo</span>
-            </div>
-            <button class="btn-view-case mono" data-case="floraeto">
-              <span>VER MAIS ARTES</span>
-              <span>↗</span>
-            </button>
-          </div>
-        </article>
-
-        <!-- Case 3: Hon Café / Marinara -->
-        <article class="project-card" data-category="branding" data-case="hon_cafe">
-          <div class="project-preview case-3-theme">
-            <img src="case3_hon_cafe.jpg" alt="Case 03 - Hon Café" />
-          </div>
-          <div class="project-info">
-            <div>
-              <div class="project-header-meta mono">
-                <span class="project-num">#CASE_03</span>
-                <span class="project-category">Gastronomia & Identidade</span>
-              </div>
-              <h3 class="project-title">Hon Café & Marinara — Visual Gastronômico</h3>
-              <p class="project-desc">
-                Engenharia de marca voltada para o setor alimentício: estudo de contraste cromático, cardápios funcionais e composições digitais que estimulam o desejo sensorial de compra imediata.
-              </p>
-            </div>
-            <div class="project-footer-tags mono">
-              <span class="tag-pill">Branding Gastronômico</span>
-              <span class="tag-pill">Packaging & Embalagem</span>
-              <span class="tag-pill">Social Feeds</span>
-            </div>
-            <button class="btn-view-case mono" data-case="hon_cafe">
-              <span>VER MAIS ARTES</span>
-              <span>↗</span>
-            </button>
-          </div>
-        </article>
-
-        <!-- Case 4: Amazon Ecofishing -->
-        <article class="project-card" data-category="branding" data-case="amazon">
-          <div class="project-preview case-4-theme">
-            <img src="case4_amazon_ecofishing.jpg" alt="Case 04 - Amazon Ecofishing" />
-          </div>
-          <div class="project-info">
-            <div>
-              <div class="project-header-meta mono">
-                <span class="project-num">#CASE_04</span>
-                <span class="project-category">Identidade Visual & Turismo Esportivo</span>
-              </div>
-              <h3 class="project-title">Amazon Ecofishing — A Força Visual da Pesca Esportiva</h3>
-              <p class="project-desc">
-                Construção de marca que equilibra a rusticidade da floresta tropical com a sofisticação do turismo internacional de pesca. Aplicações modulares em uniformes técnicos, embarcações e mídias de alto engajamento.
-              </p>
-            </div>
-            <div class="project-footer-tags mono">
-              <span class="tag-pill">Manual de Marca</span>
-              <span class="tag-pill">Ecoturismo</span>
-              <span class="tag-pill">Sinalização & Vestuário</span>
-              <span class="tag-pill">Assets Vetoriais</span>
-            </div>
-            <button class="btn-view-case mono" data-case="amazon">
-              <span>VER MAIS ARTES</span>
-              <span>↗</span>
-            </button>
-          </div>
-        </article>
-
-        <!-- Case 5: Compilação de Cases & Social Media -->
-        <article class="project-card" data-category="compilacao" data-case="compilacao">
-          <div class="project-preview case-1-theme">
-            <img src="imagens/social_media_01.jpg" alt="Case 05 - Compilação de Campanhas Comerciais" />
-          </div>
-          <div class="project-info">
-            <div>
-              <div class="project-header-meta mono">
-                <span class="project-num">#CASE_05</span>
-                <span class="project-category">Compilação Comercial & Social Media</span>
-              </div>
-              <h3 class="project-title">Compilação de Campanhas, Varejo & Peças Publicitárias</h3>
-              <p class="project-desc">
-                Acervo abrangente de peças gráficas, direção de arte e posts de alta performance desenvolvidos para clientes de múltiplos segmentos (Tterra, Artesã Farmácia de Manipulação, Prodimagem, New Life Academia, Pró Arquivar e outros).
-              </p>
-            </div>
-            <div class="project-footer-tags mono">
-              <span class="tag-pill">30+ Peças Gráficas</span>
-              <span class="tag-pill">Social Media Multi-Nicho</span>
-              <span class="tag-pill">Campanhas Comerciais</span>
-              <span class="tag-pill">Direção de Arte</span>
-            </div>
-            <button class="btn-view-case mono" data-case="compilacao">
-              <span>VER TODAS AS ARTES (31 PEÇAS)</span>
-              <span>↗</span>
-            </button>
-          </div>
-        </article>
-
-        <!-- Case 6: Design de Interfaces & Produtos Digitais -->
-        <article class="project-card" data-category="interface" data-case="interfaces">
-          <div class="project-preview case-1-theme">
-            <img src="interface/CAPA RECRUITER.png" alt="Case 06 - Design de Interfaces & Produtos Digitais" />
-          </div>
-          <div class="project-info">
-            <div>
-              <div class="project-header-meta mono">
-                <span class="project-num">#CASE_06</span>
-                <span class="project-category">Design de Interfaces & UX/UI</span>
-              </div>
-              <h3 class="project-title">Design de Interfaces — Produtos Digitais, SaaS & IoT</h3>
-              <p class="project-desc">
-                Criação de ecossistemas digitais escaláveis e centrados no usuário: <strong>RecruiterSys</strong> (Plataforma Tech B2B & App B2C), <strong>Hóruz eDB</strong> (Diário de Bordo Aeronáutico e Regulação ANAC), <strong>Pet Plant App</strong> (UX Botânica com IoT) e <strong>VentHome</strong> (Automação Residencial e Conforto Circadiano).
-              </p>
-            </div>
-            <div class="project-footer-tags mono">
-              <span class="tag-pill">UX/UI Design</span>
-              <span class="tag-pill">Design Systems</span>
-              <span class="tag-pill">SaaS B2B/B2C</span>
-              <span class="tag-pill">IoT & Automação</span>
-              <span class="tag-pill">Prototipação em Figma</span>
-            </div>
-            <button class="btn-view-case mono" data-case="interfaces">
-              <span>VER PROJETOS DE INTERFACE (4 CASES)</span>
-              <span>↗</span>
-            </button>
-          </div>
-        </article>
-
+      <div class="kinetic-row row-right-1" style="margin-top: 1rem;">
+        <span class="outlined">EDITORIAL DESIGN</span> — 
+        <span class="filled">INFOGRÁFICOS B2B</span> — 
+        <span class="accent-outline">SAAS & IOT INTERFACES</span> — 
+        <span class="filled">PRODUTOS DIGITAIS</span> — 
+        <span class="outlined">EDITORIAL DESIGN</span>
       </div>
     </div>
 
-    <!-- Seção Sobre & Trajetória Técnica -->
-    <section class="about-section" id="sobre">
-      <div class="container">
-        <div class="about-grid">
-          <div>
-            <div class="section-label mono" style="margin-bottom: 1.5rem;">// TRAJETÓRIA & MÉTODO</div>
-            <h2 class="about-title display">14 ANOS DE RIGOR VISUAL.</h2>
-          </div>
-          
-          <div class="about-content">
-            <p>
-              Minha prática como Designer Gráfico e Diretor de Arte combina o olhar crítico da comunicação publicitária clássica com a disciplina sistemática do design digital contemporâneo. Atuo desde 2012 lapidando marcas, estruturando campanhas de alto impacto e dando clareza visual a narrativas empresariais.
-            </p>
-            <p>
-              Minha atuação em <strong>Product Design & UX/UI</strong> a partir de 2020 me deu o repertório necessário para criar peças gráficas que não são apenas esteticamente impecáveis, mas rigorosamente funcionais, legíveis e orientadas a métricas de conversão reais.
-            </p>
-
-            <div class="timeline">
-              <div class="timeline-item">
-                <div class="timeline-year mono">[2024 — ATUAL]</div>
-                <div>
-                  <div class="timeline-role">Graphic Designer & Art Director</div>
-                  <div class="timeline-company">Sinergia — Projetos Visuais & Conteúdo Estratégico</div>
-                </div>
-              </div>
-
-              <div class="timeline-item">
-                <div class="timeline-year mono">[2020 — 2026]</div>
-                <div>
-                  <div class="timeline-role">Product Designer & UX/UI (Atuação Complementar)</div>
-                  <div class="timeline-company">Agência Digi, Garupa & Aliare — Sistemas digitais e usabilidade</div>
-                </div>
-              </div>
-
-              <div class="timeline-item">
-                <div class="timeline-year mono">[2018 — 2020]</div>
-                <div>
-                  <div class="timeline-role">Diretor de Arte</div>
-                  <div class="timeline-company">Tterra — Branding e campanhas multissetoriais</div>
-                </div>
-              </div>
-
-              <div class="timeline-item">
-                <div class="timeline-year mono">[2012 — 2018]</div>
-                <div>
-                  <div class="timeline-role">Designer Gráfico</div>
-                  <div class="timeline-company">ULBRA Manaus & Mix Comunicação Visual — Editorial, offline e grandes formatos</div>
-                </div>
-              </div>
-            </div>
-
-            <div style="margin-top: 3rem; display: flex; gap: 2rem; flex-wrap: wrap;">
-              <div>
-                <span class="mono" style="font-size: 0.72rem; color: var(--text-muted);">FORMAÇÃO ACADÊMICA:</span>
-                <div style="font-size: 0.9rem; font-weight: 600; margin-top: 0.2rem;">Tecnólogo em Design Gráfico (UNINORTE)</div>
-              </div>
-              <div>
-                <span class="mono" style="font-size: 0.72rem; color: var(--text-muted);">ESPECIALIZAÇÃO:</span>
-                <div style="font-size: 0.9rem; font-weight: 600; margin-top: 0.2rem;">Pós em Gestão de Design de Interiores (Nilton Lins)</div>
-              </div>
-            </div>
-          </div>
+    <!-- Cases Section -->
+    <section id="cases" class="container">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <h2 class="display scroll-title-shift">
+            <span class="word-shift-left">PROJETOS &</span> 
+            <span class="word-shift-right">CASOS SELECIONADOS</span>
+          </h2>
+          <p>Trabalhos autorais e corporativos estruturados com rigor estético e foco em conversão.</p>
         </div>
+        <div class="section-tag mono">
+          [ 06 CASOS DISPONÍVEIS ]
+        </div>
+      </div>
+
+      <!-- Filter Bar -->
+      <div class="filter-bar">
+        <button class="filter-btn active" data-filter="all">[ TODOS OS PROJETOS (06) ]</button>
+        <button class="filter-btn" data-filter="carrosseis">CARROSSÉIS & SOCIAL MEDIA</button>
+        <button class="filter-btn" data-filter="branding">IDENTIDADE & MARCA</button>
+        <button class="filter-btn" data-filter="keyvisual">KEY VISUAL & CAMPANHAS</button>
+        <button class="filter-btn" data-filter="interfaces">DESIGN DE INTERFACES & SAAS</button>
+        <button class="filter-btn" data-filter="compilacao">COMPILAÇÃO DE CASES</button>
+      </div>
+
+      <!-- Projects Grid (Current structure + 3D Tilt Perspective & Reflective Spotlight) -->
+      <div class="projects-grid" id="projectsGrid">
+
+        <!-- Case 01: CEI Contab -->
+        <article class="project-card magnetic-target" data-category="carrosseis" data-case="cei" data-cursor-text="VER CASE #01">
+          <div class="card-thumb-wrap">
+            <span class="card-badge">#CASE_01</span>
+            <img src="CARD 1.png" alt="Case 01 - CEI Contab" loading="lazy" />
+          </div>
+          <div class="card-content">
+            <div>
+              <div class="card-cat">Conteúdo B2B & Social Media</div>
+              <h3 class="card-title">CEI Contab — Tradução de Complexidade Corporativa</h3>
+              <p class="card-desc">Transformação de normativas fiscais áridas e regras contábeis em narrativas visuais modulares de alta retenção no LinkedIn e Instagram.</p>
+              <div class="card-tags">
+                <span class="tag-item">CARROSSEL B2B</span>
+                <span class="tag-item">INFOGRÁFICOS</span>
+                <span class="tag-item">ENGANJAMENTO</span>
+              </div>
+            </div>
+            <div class="card-footer-link">
+              <span>EXPLORAR GALERIA DO CASE</span>
+              <i data-lucide="arrow-right"></i>
+            </div>
+          </div>
+        </article>
+
+        <!-- Case 02: Floraeto -->
+        <article class="project-card magnetic-target" data-category="keyvisual" data-case="floraeto" data-cursor-text="VER CASE #02">
+          <div class="card-thumb-wrap">
+            <span class="card-badge">#CASE_02</span>
+            <img src="case2_floraeto.jpg" alt="Case 02 - Floraeto" loading="lazy" />
+          </div>
+          <div class="card-content">
+            <div>
+              <div class="card-cat">Key Visual & Sazonal</div>
+              <h3 class="card-title">Floraeto — Campanhas Varejo & Eventos</h3>
+              <p class="card-desc">Criação de identidades visuais efêmeras e materiais promocionais com alta sensibilidade estética. Equilíbrio entre elegância botânica e apelo comercial.</p>
+              <div class="card-tags">
+                <span class="tag-item">KEY VISUAL</span>
+                <span class="tag-item">CAMPANHA PDV</span>
+                <span class="tag-item">SOCIAL MEDIA</span>
+              </div>
+            </div>
+            <div class="card-footer-link">
+              <span>EXPLORAR GALERIA DO CASE</span>
+              <i data-lucide="arrow-right"></i>
+            </div>
+          </div>
+        </article>
+
+        <!-- Case 03: Hon Café & Marinara -->
+        <article class="project-card magnetic-target" data-category="branding" data-case="hon_cafe" data-cursor-text="VER CASE #03">
+          <div class="card-thumb-wrap">
+            <span class="card-badge">#CASE_03</span>
+            <img src="case3_hon_cafe.jpg" alt="Case 03 - Hon Café & Marinara" loading="lazy" />
+          </div>
+          <div class="card-content">
+            <div>
+              <div class="card-cat">Gastronomia & Identidade Visual</div>
+              <h3 class="card-title">Hon Café & Marinara — Visual Gastronômico</h3>
+              <p class="card-desc">Engenharia de marca e composições promocionais voltadas para o setor de alimentos & bebidas: estudo de contraste cromático e apetite visual.</p>
+              <div class="card-tags">
+                <span class="tag-item">BRANDING</span>
+                <span class="tag-item">CARDÁPIOS</span>
+                <span class="tag-item">PACKAGING</span>
+              </div>
+            </div>
+            <div class="card-footer-link">
+              <span>EXPLORAR GALERIA DO CASE</span>
+              <i data-lucide="arrow-right"></i>
+            </div>
+          </div>
+        </article>
+
+        <!-- Case 04: Amazon Ecofishing -->
+        <article class="project-card magnetic-target" data-category="branding" data-case="amazon" data-cursor-text="VER CASE #04">
+          <div class="card-thumb-wrap">
+            <span class="card-badge">#CASE_04</span>
+            <img src="case4_amazon_ecofishing.jpg" alt="Case 04 - Amazon Ecofishing" loading="lazy" />
+          </div>
+          <div class="card-content">
+            <div>
+              <div class="card-cat">Identidade Visual & Turismo Esportivo</div>
+              <h3 class="card-title">Amazon Ecofishing — A Força Visual da Pesca Esportiva</h3>
+              <p class="card-desc">Construção de marca que equilibra a imponência da floresta amazônica com a sofisticação do turismo internacional de pesca esportiva.</p>
+              <div class="card-tags">
+                <span class="tag-item">SISTEMA DE MARCA</span>
+                <span class="tag-item">KEY VISUAL</span>
+                <span class="tag-item">UNIFORMES</span>
+              </div>
+            </div>
+            <div class="card-footer-link">
+              <span>EXPLORAR GALERIA DO CASE</span>
+              <i data-lucide="arrow-right"></i>
+            </div>
+          </div>
+        </article>
+
+        <!-- Case 05: Compilação Publicitária -->
+        <article class="project-card magnetic-target" data-category="compilacao" data-case="compilacao" data-cursor-text="VER CASE #05">
+          <div class="card-thumb-wrap">
+            <span class="card-badge">#CASE_05</span>
+            <img src="imagens/social_media_01.jpg" alt="Case 05 - Compilação de Peças Publicitárias" loading="lazy" />
+          </div>
+          <div class="card-content">
+            <div>
+              <div class="card-cat">Compilação de Cases & Social Media</div>
+              <h3 class="card-title">Acervo de Campanhas Comerciais & Social Media (31 Artes)</h3>
+              <p class="card-desc">Seleção abrangente de 31 peças publicitárias, key visuals e anúncios desenvolvidos para marcas de saúde, tecnologia e logística.</p>
+              <div class="card-tags">
+                <span class="tag-item">31 PEÇAS</span>
+                <span class="tag-item">SOCIAL MEDIA</span>
+                <span class="tag-item">CAMPANHAS</span>
+              </div>
+            </div>
+            <div class="card-footer-link">
+              <span>EXPLORAR ACERVO DE 31 ARTES</span>
+              <i data-lucide="arrow-right"></i>
+            </div>
+          </div>
+        </article>
+
+        <!-- Case 06: Design de Interfaces & UX/UI -->
+        <article class="project-card magnetic-target" data-category="interfaces" data-case="interfaces" data-cursor-text="VER CASE #06">
+          <div class="card-thumb-wrap">
+            <span class="card-badge">#CASE_06</span>
+            <img src="interface/CAPA RECRUITER.png" alt="Case 06 - Design de Interfaces & SAAS" loading="lazy" />
+          </div>
+          <div class="card-content">
+            <div>
+              <div class="card-cat">Design de Interfaces & UX/UI</div>
+              <h3 class="card-title">Design de Interfaces — Produtos Digitais, SaaS & IoT</h3>
+              <p class="card-desc">Projetos concebidos na interseção entre UX Strategy, Design Systems, IoT e Engenharia de Produto (RecruiterSys, Hóruz eDB, PetPlant, VentHome).</p>
+              <div class="card-tags">
+                <span class="tag-item">UX/UI STRATEGY</span>
+                <span class="tag-item">DASHBOARDS SAAS</span>
+                <span class="tag-item">IOT APPS</span>
+              </div>
+            </div>
+            <div class="card-footer-link">
+              <span>EXPLORAR PRODUTOS DIGITAIS</span>
+              <i data-lucide="arrow-right"></i>
+            </div>
+          </div>
+        </article>
+
       </div>
     </section>
 
-    <!-- Modal de Inspeção de Case -->
-    <div class="case-modal" id="caseModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-      <div class="modal-box">
-        <div class="modal-header">
-          <div>
-            <div class="mono" style="color: var(--accent); font-size: 0.78rem; margin-bottom: 0.4rem;" id="modalMeta">#CASE_01 // CONTEÚDO B2B</div>
-            <h2 class="display" style="font-size: clamp(1.5rem, 3.2vw, 2.3rem); font-weight: 800; line-height: 1.1;" id="modalTitle">Título do Case</h2>
-          </div>
-          <button class="modal-close-btn" id="modalCloseBtn">
-            <span>[ ESC ] FECHAR</span>
-            <span>✕</span>
-          </button>
-        </div>
-
-        <p id="modalDesc" style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; margin-bottom: 1.5rem;"></p>
-        
-        <div class="project-footer-tags mono" id="modalTags" style="border-top: 1px solid var(--line); padding-top: 1rem; margin-bottom: 2rem;">
-        </div>
-
-        <div class="mono" style="font-size: 0.75rem; letter-spacing: 0.15em; color: var(--accent); text-transform: uppercase;">
-          // ARTES & DESDOBRAMENTOS DO CASE (CLIQUE PARA AMPLIAR)
-        </div>
-
-        <div class="modal-arts-grid" id="modalArtsGrid">
-          <!-- Inserido dinamicamente via JS -->
-        </div>
+    <!-- Kinetic Marquee Strip 2: Trajectory & Experience Scroll Rows -->
+    <div class="kinetic-text-strip" id="marqueeStrip2">
+      <div class="kinetic-row row-left-2">
+        <span class="filled">14+ ANOS DE EXPERIÊNCIA</span> — 
+        <span class="accent-outline">DESIGN ESTRATÉGICO</span> — 
+        <span class="outlined">RIGOR TIPOGRÁFICO</span> — 
+        <span class="filled">14+ ANOS DE EXPERIÊNCIA</span>
+      </div>
+      <div class="kinetic-row row-right-2" style="margin-top: 1rem;">
+        <span class="outlined">CEI CONTAB</span> — 
+        <span class="filled">FLORAETO</span> — 
+        <span class="accent-outline">HON CAFÉ</span> — 
+        <span class="filled">AMAZON ECOFISHING</span> — 
+        <span class="outlined">RECRUITERSYS</span> — 
+        <span class="filled">HÓRUZ EDB</span>
       </div>
     </div>
 
-    <!-- Lightbox Viewer para Zoom de Imagem -->
-    <div class="lightbox-viewer" id="lightboxViewer" title="Clique para fechar">
-      <img id="lightboxImg" src="" alt="Zoom da Arte" />
-    </div>
-
-    <!-- Rodapé & Contato -->
-    <footer id="contato">
-      <div class="container">
-        <div class="footer-cta">
-          <div>
-            <span class="section-label mono">// VAMOS CONVERSAR</span>
-            <h2 class="display" style="margin-top: 1rem;">DISPONÍVEL PARA<br><span style="color: var(--accent);">NOVOS DESAFIOS.</span></h2>
-          </div>
-          <div style="display: flex; flex-direction: column; gap: 1rem;">
-            <a href="https://api.whatsapp.com/send/?phone=5592992552746" target="_blank" class="btn-action primary mono">
-              Conversar no WhatsApp ↗
-            </a>
-            <a href="https://linkedin.com/in/daniel-rodrigo-leite" target="_blank" class="btn-action mono">
-              LinkedIn Conexão ↗
-            </a>
-          </div>
+    <!-- Trajectory Section -->
+    <section id="trajetoria" class="container timeline-section">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <h2 class="display scroll-title-shift">
+            <span class="word-shift-left">TRAJETÓRIA &</span> 
+            <span class="word-shift-right">EXCELÊNCIA TÉCNICA</span>
+          </h2>
+          <p>Mais de uma década construindo ecossistemas visuais e estratégias de design de alta retenção.</p>
         </div>
-
-        <div class="footer-bottom mono">
-          <div>© DANIEL RODRIGO ANDRADE LEITE — MANAUS / BRASIL</div>
-          <ul class="footer-links">
-            <li><a href="https://behance.net/danielrodrigo" target="_blank">BEHANCE</a></li>
-            <li><a href="https://linkedin.com/in/daniel-rodrigo-leite" target="_blank">LINKEDIN</a></li>
-            <li><a href="Daniel_Rodrigo_Leite_Graphic_Designer_CV.pdf" target="_blank" download="Daniel_Rodrigo_Leite_Graphic_Designer_CV.pdf">DOWNLOAD_CV.PDF</a></li>
-          </ul>
+        <div class="section-tag mono">
+          [ 14+ ANOS DE MERCADO ]
         </div>
       </div>
-    </footer>
+
+      <!-- Trajectory Layout with Avatar Photo (avatarnovo.png) -->
+      <div class="trajectory-wrapper">
+        <!-- Left: Avatar Image Card -->
+        <div class="trajectory-avatar-card">
+          <img src="avatarnovo.png" alt="Daniel Leite - Trajetória" />
+        </div>
+
+        <!-- Right: Intro Content & Stats Grid -->
+        <div class="trajectory-content">
+          <div class="trajectory-intro">
+            <p>Ao longo de mais de <strong>14 anos de atuação no mercado criativo</strong>, desenvolvi sistemas de marca, direções de arte de alto impacto e produtos digitais estratégicos para empresas dos setores corporativo, B2B e tecnologia.</p>
+            <p>Com foco em <strong>clareza cognitiva e valor perceptual</strong>, unindo o rigor técnico da escola de design suíço a metodologias contemporâneas de UX/UI, meu trabalho maximiza a conversão e o posicionamento autêntico de cada projeto.</p>
+          </div>
+
+          <!-- Stats Grid -->
+          <div class="stats-row">
+            <div class="stat-box">
+              <div class="stat-number">14+</div>
+              <div class="stat-label">Anos de Prática</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-number">500+</div>
+              <div class="stat-label">Campanhas & Peças</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-number">100%</div>
+              <div class="stat-label">Prazos Cumpridos</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-number">06</div>
+              <div class="stat-label">Especialidades</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Timeline Cards Grid -->
+      <div class="timeline-grid">
+        <div class="timeline-card">
+          <div class="timeline-year">// 2018 — PRESENTE</div>
+          <h3 class="timeline-role">Diretor de Arte & Senior Designer</h3>
+          <div class="timeline-company">Atuação Autônoma & Consultoria de Marca</div>
+          <p class="timeline-desc">Liderança de projetos de identidade visual, key visuals de grande porte e design de interfaces para empresas dos setores de tecnologia, saúde, alimentos e agronegócio.</p>
+        </div>
+
+        <div class="timeline-card">
+          <div class="timeline-year">// METODOLOGIA & RIGOR</div>
+          <h3 class="timeline-role">Direção de Arte de Alta Densidade</h3>
+          <div class="timeline-company">Foco em Clareza Cognitiva & Conversão</div>
+          <p class="timeline-desc">Desenvolvimento de sistemas visuais baseados na escola de design suíço: grilação rígida, hierarquia tipográfica clara e uso intencional de contraste cromático.</p>
+        </div>
+
+        <div class="timeline-card">
+          <div class="timeline-year">// ENSINO & FORMAÇÃO</div>
+          <h3 class="timeline-role">Formação Acadêmica & Técnica</h3>
+          <div class="timeline-company">Design Gráfico & UX/UI Design</div>
+          <p class="timeline-desc">Atualização constante nas principais ferramentas do mercado (Figma, Adobe Creative Cloud, Renderização 3D, IA Generativa aplicada a workflow criativo).</p>
+        </div>
+      </div>
+    </section>
   </main>
 
+  <!-- Case Modal System -->
+  <div class="case-modal-overlay" id="caseModal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <div class="mono" style="font-size: 0.75rem; color: var(--accent); margin-bottom: 0.3rem;" id="modalNumber">#CASE</div>
+          <h3 id="modalTitle">Título do Case</h3>
+        </div>
+        <button class="modal-close-btn" id="modalCloseBtn">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-desc-box" id="modalDesc">
+          Descrição completa do case...
+        </div>
+        <div class="modal-arts-grid" id="modalArtsGrid">
+          <!-- Arts loaded dynamically via JavaScript -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lightbox Zoom Overlay -->
+  <div class="lightbox-overlay" id="lightboxOverlay">
+    <img src="" alt="Ampliação da Arte" id="lightboxImg" />
+  </div>
+
+  <!-- Footer -->
+  <footer id="contato">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3 class="display">
+            <span class="word-shift-left" style="display: inline-block;">DANIEL</span> 
+            <span class="word-shift-right" style="display: inline-block;">LEITE</span>
+          </h3>
+          <p>Direção de Arte, Identidade Visual & Design de Interfaces. Transformando marcas e produtos digitais em experiências memoráveis.</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Navegação</h4>
+          <ul class="footer-links mono">
+            <li><a href="#cases" class="magnetic-target" data-cursor-text="IR">// Portfólio</a></li>
+            <li><a href="#trajetoria" class="magnetic-target" data-cursor-text="IR">// Trajetória</a></li>
+            <li><a href="#contato" class="magnetic-target" data-cursor-text="IR">// Contato</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col footer-connect-col">
+          <h4>Conectar</h4>
+          <div class="footer-buttons-wrap">
+            <a href="https://wa.me/5592991316641?text=Ol%C3%A1%20Daniel,%20vi%20seu%20portf%C3%B3lio%20e%20gostaria%20de%20conversar%20sobre%20um%20projeto." target="_blank" class="btn-primary footer-btn-primary magnetic-target" data-cursor-text="WHATSAPP">
+              <span>WHATSAPP DIRECT</span>
+              <i data-lucide="message-square"></i>
+            </a>
+            <a href="https://behance.net" target="_blank" class="btn-primary footer-btn-primary btn-footer-secondary magnetic-target" data-cursor-text="BEHANCE">
+              <span>BEHANCE PORTFOLIO</span>
+              <i data-lucide="arrow-up-right"></i>
+            </a>
+            <a href="https://linkedin.com" target="_blank" class="btn-primary footer-btn-primary btn-footer-secondary magnetic-target" data-cursor-text="LINKEDIN">
+              <span>LINKEDIN PERFIL</span>
+              <i data-lucide="arrow-up-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom mono">
+        <div>© 2026 DANIEL LEITE. TODOS OS DIREITOS RESERVADOS.</div>
+        <div>MANAUS, AM — BRASIL</div>
+        <div>
+          <button id="backToTopBtn" class="btn-secondary btn-footer-secondary magnetic-target" data-cursor-text="SUBIR" style="cursor: pointer; padding: 0.65rem 1.25rem; display: inline-flex; align-items: center; gap: 0.6rem; font-size: 0.75rem; border-radius: 4px;">
+            <span>SUBIR AO TOPO</span>
+            <i data-lucide="arrow-up"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts: Lenis, Three.js 3D Wave Particles, Magnetic Cursor, 3D Card Perspective Tilt, GSAP ScrollTrigger & Kinetic Word Movement -->
   <script>
-    // Sistema de Filtragem dos Projetos
+    /* ==========================================================================
+       1. Inicialização de Ícones Lucide & Lenis Engine Smooth Scroll
+       ========================================================================== */
+    lucide.createIcons();
+
+    /* Sync GSAP ScrollTrigger com Lenis Smooth Scroll */
+    gsap.registerPlugin(ScrollTrigger);
+
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      smoothTouch: false
+    });
+
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time) => {
+      lenis.raf(time * 1000);
+    });
+    gsap.ticker.lagSmoothing(0);
+
+    /* ==========================================================================
+       2. WebGL 3D Wave Particle Background (Three.js)
+       ========================================================================== */
+    const canvas = document.getElementById('webgl-bg');
+    const scene = new THREE.Scene();
+
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 15, 35);
+    camera.lookAt(0, 0, 0);
+
+    const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    /* Matriz de Partículas 3D (70 x 70 = 4.900 Pontos) */
+    const cols = 70;
+    const rows = 70;
+    const count = cols * rows;
+    const positions = new Float32Array(count * 3);
+    const initialY = new Float32Array(count);
+
+    let idx = 0;
+    for (let i = 0; i < cols; i++) {
+      for (let j = 0; j < rows; j++) {
+        const x = (i - cols / 2) * 1.2;
+        const z = (j - rows / 2) * 1.2;
+        const y = Math.sin(x * 0.2) * Math.cos(z * 0.2) * 2;
+        
+        positions[idx * 3] = x;
+        positions[idx * 3 + 1] = y;
+        positions[idx * 3 + 2] = z;
+
+        initialY[idx] = y;
+        idx++;
+      }
+    }
+
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+    /* Material de Partículas com Cor Accent (#ff432a) */
+    const material = new THREE.PointsMaterial({
+      color: 0xff432a,
+      size: 0.28,
+      transparent: true,
+      opacity: 0.75,
+      blending: THREE.AdditiveBlending
+    });
+
+    const particles = new THREE.Points(geometry, material);
+    scene.add(particles);
+
+    /* Rastreamento do Cursor para Interatividade 3D */
+    let mouseX = 0;
+    let mouseY = 0;
+    let targetMouseX = 0;
+    let targetMouseY = 0;
+
+    window.addEventListener('mousemove', (e) => {
+      targetMouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+      targetMouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+    });
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    /* Loop de Animação das Partículas de Onda */
+    const clock = new THREE.Clock();
+
+    function animateParticles() {
+      const time = clock.getElapsedTime();
+      
+      mouseX += (targetMouseX - mouseX) * 0.05;
+      mouseY += (targetMouseY - mouseY) * 0.05;
+
+      const pos = particles.geometry.attributes.position.array;
+      let ptr = 0;
+
+      for (let i = 0; i < cols; i++) {
+        for (let j = 0; j < rows; j++) {
+          const x = pos[ptr * 3];
+          const z = pos[ptr * 3 + 2];
+          
+          /* Equação de Ondas Fluídas + Distorção pelo Cursor */
+          const wave1 = Math.sin(x * 0.25 + time * 1.5);
+          const wave2 = Math.cos(z * 0.25 + time * 1.2);
+          const distFromCenter = Math.sqrt(x * x + z * z);
+          const mouseEffect = Math.sin(distFromCenter * 0.2 - time * 2) * mouseX * 2;
+
+          pos[ptr * 3 + 1] = wave1 * wave2 * 1.8 + mouseEffect;
+          ptr++;
+        }
+      }
+
+      particles.geometry.attributes.position.needsUpdate = true;
+
+      /* Movimento de Câmera & Rotação sincronizada com Scroll */
+      const scrollY = window.scrollY || document.documentElement.scrollTop;
+      camera.position.y = 15 + scrollY * 0.01;
+      camera.position.z = 35 - scrollY * 0.008;
+      particles.rotation.y = time * 0.04 + mouseX * 0.2;
+      particles.rotation.x = mouseY * 0.1;
+
+      renderer.render(scene, camera);
+      requestAnimationFrame(animateParticles);
+    }
+    requestAnimationFrame(animateParticles);
+
+    /* ==========================================================================
+       3. Cursor Magnético Customizado
+       ========================================================================== */
+    const cursor = document.getElementById('custom-cursor');
+    const cursorText = document.getElementById('custom-cursor-text');
+    let cursorX = 0, cursorY = 0;
+    let targetX = 0, targetY = 0;
+
+    window.addEventListener('mousemove', (e) => {
+      targetX = e.clientX;
+      targetY = e.clientY;
+    });
+
+    function updateCursor() {
+      cursorX += (targetX - cursorX) * 0.18;
+      cursorY += (targetY - cursorY) * 0.18;
+      cursor.style.left = `${cursorX}px`;
+      cursor.style.top = `${cursorY}px`;
+      requestAnimationFrame(updateCursor);
+    }
+    requestAnimationFrame(updateCursor);
+
+    /* Alvos Magnéticos & Hover Labels */
+    const magneticElements = document.querySelectorAll('.magnetic-target');
+
+    magneticElements.forEach((el) => {
+      el.addEventListener('mouseenter', () => {
+        cursor.classList.add('hovered');
+        const customText = el.getAttribute('data-cursor-text') || 'VER';
+        cursorText.textContent = customText;
+      });
+
+      el.addEventListener('mouseleave', () => {
+        cursor.classList.remove('hovered');
+        cursorText.textContent = 'VER';
+        gsap.to(el, { x: 0, y: 0, duration: 0.4, ease: 'power2.out' });
+      });
+
+      el.addEventListener('mousemove', (e) => {
+        const rect = el.getBoundingClientRect();
+        const relX = e.clientX - rect.left - rect.width / 2;
+        const relY = e.clientY - rect.top - rect.height / 2;
+        gsap.to(el, { x: relX * 0.2, y: relY * 0.2, duration: 0.2, ease: 'power1.out' });
+      });
+    });
+
+    /* ==========================================================================
+       4. Card Tilt 3D Perspective + Rastreamento de Mouse
+       ========================================================================== */
+    const cards = document.querySelectorAll('.project-card');
+
+    cards.forEach((card) => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -6;
+        const rotateY = ((x - centerX) / centerX) * 6;
+
+        gsap.to(card, {
+          rotateX: rotateX,
+          rotateY: rotateY,
+          duration: 0.3,
+          ease: 'power1.out',
+          transformPerspective: 1000
+        });
+      });
+
+      card.addEventListener('mouseleave', () => {
+        gsap.to(card, {
+          rotateX: 0,
+          rotateY: 0,
+          duration: 0.5,
+          ease: 'power2.out'
+        });
+      });
+    });
+
+    /* ==========================================================================
+       5. Scroll-Driven Word Position Shift & Kinetic Typography (vovi-23 style)
+       ========================================================================== */
+    
+    function getResponsiveShiftFactor() {
+      const w = window.innerWidth;
+      if (w < 768) return 0.28;       // Mobile: 0.28 shift factor for smooth kinetic slide without clipping
+      if (w < 1200) return 0.45;      // Small screens / tablet: controlled 45% factor
+      return 0.80;                    // Desktop: full kinetic slide
+    }
+
+    const shiftFactor = getResponsiveShiftFactor();
+
+    /* 5.1 Hero Title Words Horizontal Shift on Scroll */
+    const heroLines = document.querySelectorAll('#heroTitle .line');
+    heroLines.forEach((line) => {
+      const rawShift = parseFloat(line.getAttribute('data-shift') || '30');
+      const shiftAmount = rawShift * shiftFactor;
+      gsap.to(line, {
+        xPercent: shiftAmount,
+        scrollTrigger: {
+          trigger: '.hero-section',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 1.2
+        }
+      });
+    });
+
+    /* 5.2 Kinetic Text Marquees (Horizontal Scroll Strips) */
+    const isMobileDevice = window.innerWidth < 768;
+
+    gsap.to('.row-left-1', {
+      xPercent: isMobileDevice ? -20 : -40,
+      scrollTrigger: {
+        trigger: '#marqueeStrip1',
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 1.2
+      }
+    });
+
+    gsap.to('.row-right-1', {
+      xPercent: isMobileDevice ? 18 : 32,
+      scrollTrigger: {
+        trigger: '#marqueeStrip1',
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 1.2
+      }
+    });
+
+    gsap.to('.row-left-2', {
+      xPercent: isMobileDevice ? -18 : -35,
+      scrollTrigger: {
+        trigger: '#marqueeStrip2',
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 1.2
+      }
+    });
+
+    gsap.to('.row-right-2', {
+      xPercent: isMobileDevice ? 15 : 28,
+      scrollTrigger: {
+        trigger: '#marqueeStrip2',
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 1.2
+      }
+    });
+
+    /* 5.3 Section Titles & Footer Titles Word Shift on Scroll */
+    function getSectionWordShift() {
+      const w = window.innerWidth;
+      if (w < 768) return 8;  // Mobile: 8% shift factor to slide smoothly within container
+      if (w < 1200) return 16; // Tablet: 16% shift factor
+      return 24;               // Desktop: 24% shift factor
+    }
+
+    const wordShiftAmount = getSectionWordShift();
+
+    document.querySelectorAll('.word-shift-left').forEach(el => {
+      const parentTrigger = el.closest('.section-header') || el.closest('footer') || el.parentElement;
+      gsap.to(el, {
+        xPercent: -wordShiftAmount,
+        scrollTrigger: {
+          trigger: parentTrigger,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1.2
+        }
+      });
+    });
+
+    document.querySelectorAll('.word-shift-right').forEach(el => {
+      const parentTrigger = el.closest('.section-header') || el.closest('footer') || el.parentElement;
+      gsap.to(el, {
+        xPercent: wordShiftAmount,
+        scrollTrigger: {
+          trigger: parentTrigger,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1.2
+        }
+      });
+    });
+
+    /* 5.4 Info Block Tags & Numbers Scroll Shift */
+    const tagShiftAmount = isMobileDevice ? 0 : 20;
+    document.querySelectorAll('.info-block .block-tag').forEach((tag, idx) => {
+      gsap.to(tag, {
+        x: idx % 2 === 0 ? -tagShiftAmount : tagShiftAmount,
+        scrollTrigger: {
+          trigger: tag,
+          start: 'top 90%',
+          end: 'bottom 40%',
+          scrub: 1
+        }
+      });
+    });
+
+    const statNumShift = isMobileDevice ? 0 : 12;
+    document.querySelectorAll('.stat-number').forEach((num, idx) => {
+      gsap.to(num, {
+        x: idx % 2 === 0 ? statNumShift : -statNumShift,
+        scrollTrigger: {
+          trigger: num,
+          start: 'top 90%',
+          end: 'bottom 40%',
+          scrub: 1
+        }
+      });
+    });
+
+    /* Initial Stagger Reveal Animations */
+    gsap.from('#heroTitle .line', {
+      y: 100,
+      opacity: 0,
+      duration: 1.2,
+      stagger: 0.12,
+      ease: 'power4.out',
+      delay: 0.2
+    });
+
+    gsap.from('.hero-info-blocks > div', {
+      y: 40,
+      opacity: 0,
+      duration: 1,
+      stagger: 0.12,
+      ease: 'power3.out',
+      delay: 0.7
+    });
+
+    gsap.from('.hero-avatar-bg img', {
+      scale: 1.12,
+      opacity: 0,
+      duration: 1.5,
+      ease: 'power3.out',
+      delay: 0.4
+    });
+
+    /* Reveal da Grade de Projetos no Scroll */
+    cards.forEach((card) => {
+      gsap.from(card, {
+        scrollTrigger: {
+          trigger: card,
+          start: 'top 85%',
+          toggleActions: 'play none none reverse'
+        },
+        y: 60,
+        opacity: 0,
+        duration: 0.9,
+        ease: 'power3.out'
+      });
+    });
+
+    /* ==========================================================================
+       6. Sistema de Filtragem dos Projetos
+       ========================================================================== */
     const filterButtons = document.querySelectorAll('.filter-btn');
     const projectCards = document.querySelectorAll('.project-card');
 
@@ -1275,23 +2358,26 @@
 
         projectCards.forEach(card => {
           const cardCat = card.getAttribute('data-category');
-          if (filterValue === 'all' || cardCat === filterValue || (filterValue === 'social' && cardCat === 'compilacao')) {
-            card.style.display = 'flex';
+          if (filterValue === 'all' || cardCat === filterValue) {
+            gsap.to(card, { display: 'flex', opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' });
           } else {
-            card.style.display = 'none';
+            gsap.to(card, { opacity: 0, y: 20, duration: 0.3, ease: 'power2.in', onComplete: () => {
+              card.style.display = 'none';
+            }});
           }
         });
       });
     });
 
-    // Base de Dados de Artes por Case (100% Separadas por Cliente)
+    /* ==========================================================================
+       7. Base de Dados de Artes por Case (06 Cases Completos)
+       ========================================================================== */
     const caseData = {
       cei: {
         number: '#CASE_01',
         category: 'Conteúdo B2B & Social Media',
         title: 'CEI Contab — Tradução de Complexidade Corporativa',
         desc: 'Transformação de normativas fiscais áridas e regras contábeis em narrativas visuais modulares de alta retenção. Estruturação de infográficos em carrossel, contraste técnico e tipografia expressiva para converter tomadores de decisão no LinkedIn e Instagram.',
-        tags: ['Carrosséis Estratégicos', 'Design Editorial Digital', 'B2B Content', 'Figma + Illustrator'],
         images: [
           { src: 'CARD 1.png', title: 'Carrossel B2B — Capa: Simples Nacional' },
           { src: 'case1_cei_contab.jpg', title: 'Infográfico Estratégico — Posicionamento CEI' },
@@ -1307,7 +2393,6 @@
         category: 'Key Visual & Sazonal',
         title: 'Floraeto — Campanhas Varejo & Eventos',
         desc: 'Criação de identidades visuais efêmeras e materiais promocionais com alta sensibilidade estética. Equilíbrio entre elegância botânica, sofisticação e apelo comercial direto para conversão em PDV e feed social.',
-        tags: ['Campanhas Sazonais', 'Direção de Arte', 'Varejo de Luxo', 'Social & PDV'],
         images: [
           { src: 'case2_floraeto.jpg', title: 'Floraeto — Key Visual Principal' },
           { src: 'cases/flora/POST MANAUS 2 copiar.jpg', title: 'Floraeto — Post Manaus Campanha' },
@@ -1317,10 +2402,9 @@
       },
       hon_cafe: {
         number: '#CASE_03',
-        category: 'Gastronomia & Identidade',
+        category: 'Gastronomia & Identidade Visual',
         title: 'Hon Café & Marinara — Visual Gastronômico',
         desc: 'Engenharia de marca e composições promocionais voltadas para o setor de alimentos & bebidas: estudo rigoroso de contraste cromático, cardápios funcionais e composições que estimulam o desejo sensorial imediato.',
-        tags: ['Branding Gastronômico', 'Packaging & Embalagem', 'Social Feeds', 'Apetite Appeal'],
         images: [
           { src: 'case3_hon_cafe.jpg', title: 'Hon Café — Identidade & Apetite Appeal' },
           { src: 'case3_marinara.jpg', title: 'Marinara — Manual de Embalagens & Selos' },
@@ -1347,7 +2431,6 @@
         category: 'Identidade Visual & Turismo Esportivo',
         title: 'Amazon Ecofishing — A Força Visual da Pesca Esportiva',
         desc: 'Construção de marca que equilibra a imponência da floresta amazônica com a sofisticação do turismo internacional de pesca esportiva. Aplicações modulares em uniformes técnicos, sinalização de embarcações e mídias digitais.',
-        tags: ['Manual de Marca', 'Ecoturismo', 'Sinalização & Vestuário', 'Assets Vetoriais'],
         images: [
           { src: 'case4_amazon_ecofishing.jpg', title: 'Amazon Ecofishing — Key Visual & Sistema de Marca' },
           { src: 'cases/amazon ecofishing/20 NOVEMBRO ECO FISSHING copiar.jpg', title: 'Amazon Ecofishing — Expedição 20 de Novembro' },
@@ -1358,73 +2441,40 @@
       compilacao: {
         number: '#CASE_05',
         category: 'Compilação de Cases & Social Media',
-        title: 'Acervo de Campanhas Comerciais & Social Media',
-        desc: 'Seleção abrangente de peças publicitárias, posts para redes sociais, key visuals e anúncios desenvolvidos para diversas marcas e segmentos (Tterra Comunicação, Artesã Farmácia de Manipulação, Prodimagem / Prodcard Infinity, Academia New Life, Pró Arquivar e outros).',
-        tags: ['Social Media', 'Campanhas Comerciais', 'Performance & Varejo', 'Direção de Arte Multi-Setorial'],
-        images: [
-          { src: 'imagens/social_media_01.jpg', title: 'Tterra — 5 Erros Fatais em Anúncio Digital' },
-          { src: 'imagens/social_media_02.jpg', title: 'Tterra — Criativos e Dedicados' },
-          { src: 'imagens/social_media_03.jpg', title: 'Artesã — Linha de Manipulação & Saúde' },
-          { src: 'imagens/social_media_04.jpg', title: 'Artesã — Ômega 3 Cápsulas' },
-          { src: 'imagens/social_media_05.jpg', title: 'New Life Academia — Desafio Medida Certa' },
-          { src: 'imagens/social_media_06.jpg', title: 'Pró Arquivar — Soluções Corporativas' },
-          { src: 'imagens/social_media_07.jpg', title: 'Prodimagem — Prodcard Infinity Rio Amazonas' },
-          { src: 'imagens/social_media_08.jpg', title: 'Peça Comercial — Campanhas & Varejo' },
-          { src: 'imagens/social_media_09.jpg', title: 'Design Editorial — Social Media' },
-          { src: 'imagens/social_media_10.jpg', title: 'Peça Publicitária — Feed & Stories' },
-          { src: 'imagens/social_media_11.jpg', title: 'Key Visual — Campanha Promocional' },
-          { src: 'imagens/social_media_12.jpg', title: 'Card de Engajamento — Conteúdo Digital' },
-          { src: 'imagens/social_media_13.jpg', title: 'Design de Conteúdo — Linha Comercial' },
-          { src: 'imagens/social_media_14.jpg', title: 'Peça Publicitária — Divulgação & Conversão' },
-          { src: 'imagens/social_media_15.jpg', title: 'Campanha de Marca — Visual Impact' },
-          { src: 'imagens/social_media_16.jpg', title: 'Storytelling Visual — Conteúdo Corporativo' },
-          { src: 'imagens/social_media_17.jpg', title: 'Peça Digital — Campanhas de Alto Impacto' },
-          { src: 'imagens/social_media_18.jpg', title: 'Direção de Arte — Varejo & Serviços' },
-          { src: 'imagens/social_media_19.jpg', title: 'Comunicação Visual — Peça Publicitária' },
-          { src: 'imagens/social_media_20.jpg', title: 'Design Promocional — Ação Sazonal' },
-          { src: 'imagens/social_media_21.jpg', title: 'Peça de Performance — Social Feeds' },
-          { src: 'imagens/social_media_22.jpg', title: 'Criativo Comercial — Divulgação de Produto' },
-          { src: 'imagens/social_media_23.jpg', title: 'Design de Post — Campanhas Digitais' },
-          { src: 'imagens/social_media_24.jpg', title: 'Peça Gráfica — Branding & Conteúdo' },
-          { src: 'imagens/social_media_25.jpg', title: 'Composição de Varejo — Destaque Comercial' },
-          { src: 'imagens/social_media_26.jpg', title: 'Direção de Arte — Redes Sociais' },
-          { src: 'imagens/social_media_27.jpg', title: 'Anúncio Digital — Engajamento & Vendas' },
-          { src: 'imagens/social_media_28.jpg', title: 'Card Promocional — Comunicação Eficaz' },
-          { src: 'imagens/social_media_29.jpg', title: 'Peça de Campanha — Posicionamento de Marca' },
-          { src: 'imagens/social_media_30.jpg', title: 'Criativo Publicitário — Conversão Direta' },
-          { src: 'imagens/social_media_31.jpg', title: 'Fechamento de Campanha — Peça Final' }
-        ]
+        title: 'Acervo de Campanhas Comerciais & Social Media (31 Artes)',
+        desc: 'Seleção abrangente de 31 peças publicitárias, posts para redes sociais, key visuals e anúncios desenvolvidos para diversas marcas e segmentos (Tterra, Artesã Farmácia, Prodimagem, New Life, Pró Arquivar).',
+        images: Array.from({ length: 31 }, (_, i) => ({
+          src: `imagens/social_media_${String(i + 1).padStart(2, '0')}.jpg`,
+          title: `Peça Publicitária #${String(i + 1).padStart(2, '0')} — Direção de Arte & Social Media`
+        }))
       },
       interfaces: {
         number: '#CASE_06',
         category: 'Design de Interfaces & UX/UI',
         title: 'Design de Interfaces — Produtos Digitais, SaaS & IoT',
         desc: `
-          <div style="display: flex; flex-direction: column; gap: 1.2rem;">
-            <p style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.6;">
-              Projetos concebidos na interseção entre <strong>UX Strategy, Design Systems, IoT e Engenharia de Produto</strong>. Transformando desafios complexos e fluxos densos em produtos digitais de alta usabilidade e alto impacto:
-            </p>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem;">
-              <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--line); border-left: 3px solid #0ea5e9; padding: 1.1rem; border-radius: 4px;">
-                <strong style="color: #38bdf8; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 0.4rem;">01. RecruiterSys (Recrutamento Tech)</strong>
-                <p style="font-size: 0.82rem; color: #94a3b8; line-height: 1.5; margin: 0;">Ecossistema dual (Dashboard B2B + App B2C) eliminando o gap de comunicação e otimizando a contratação e triagem técnica de talentos em TI.</p>
-              </div>
-              <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--line); border-left: 3px solid #06b6d4; padding: 1.1rem; border-radius: 4px;">
-                <strong style="color: #22d3ee; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 0.4rem;">02. Hóruz eDB (Aviação & ANAC)</strong>
-                <p style="font-size: 0.82rem; color: #94a3b8; line-height: 1.5; margin: 0;">Digitalização regulatória do diário de bordo aeronáutico em tablet 10.4'', com conformidade ANAC, Green UX (metrificação de carbono) e apoio a missões na Amazônia.</p>
-              </div>
-              <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--line); border-left: 3px solid #10b981; padding: 1.1rem; border-radius: 4px;">
-                <strong style="color: #34d399; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 0.4rem;">03. Pet Plant App (IoT & UX Botânica)</strong>
-                <p style="font-size: 0.82rem; color: #94a3b8; line-height: 1.5; margin: 0;">Gestão e cuidado inteligente de plantas com telemetria de sensores (umidade, luz, temperatura e fertilidade) e diagnósticos preditivos.</p>
-              </div>
-              <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--line); border-left: 3px solid #a855f7; padding: 1.1rem; border-radius: 4px;">
-                <strong style="color: #c084fc; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 0.4rem;">04. VentHome (IoT & Smart Climate)</strong>
-                <p style="font-size: 0.82rem; color: #94a3b8; line-height: 1.5; margin: 0;">Automação residencial que transforma ventiladores analógicos em sistemas inteligentes com presets customizados (Gamer, Bike, Sono) e sincronização circadiana.</p>
-              </div>
-            </div>
+          <div style="display: flex; flex-direction: column; gap: 1rem;">
+            <p>Projetos concebidos na interseção entre UX Strategy, Design Systems, IoT e Engenharia de Produto:</p>
+            <ul style="list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+              <li style="background: rgba(255,255,255,0.03); padding: 1rem; border-left: 3px solid #0ea5e9;">
+                <strong style="color: #38bdf8; display: block; margin-bottom: 0.3rem;">RecruiterSys</strong>
+                Ecossistema dual (B2B + B2C) para recrutamento tech.
+              </li>
+              <li style="background: rgba(255,255,255,0.03); padding: 1rem; border-left: 3px solid #06b6d4;">
+                <strong style="color: #22d3ee; display: block; margin-bottom: 0.3rem;">Hóruz eDB</strong>
+                Diário de bordo aeronáutico em tablet 10.4'' com aprovação ANAC.
+              </li>
+              <li style="background: rgba(255,255,255,0.03); padding: 1rem; border-left: 3px solid #10b981;">
+                <strong style="color: #34d399; display: block; margin-bottom: 0.3rem;">Pet Plant App</strong>
+                Monitoramento IoT com telemetria de sensores botânicos.
+              </li>
+              <li style="background: rgba(255,255,255,0.03); padding: 1rem; border-left: 3px solid #a855f7;">
+                <strong style="color: #c084fc; display: block; margin-bottom: 0.3rem;">VentHome App</strong>
+                Climatização inteligente residencial IoT.
+              </li>
+            </ul>
           </div>
         `,
-        tags: ['UX/UI Design', 'Design Systems', 'SaaS B2B/B2C', 'IoT & Automação', 'Mobile Apps', 'Figma Prototyping'],
         images: [
           { src: 'interface/CAPA RECRUITER.png', title: 'RecruiterSys — Ecossistema Dual de Recrutamento Tech' },
           { src: 'interface/mock 1.png', title: 'RecruiterSys — Mockup & Dashboard da Plataforma' },
@@ -1439,150 +2489,134 @@
       }
     };
 
-    // Elementos do Modal e Lightbox
-    const caseModal = document.getElementById('caseModal');
+    /* ==========================================================================
+       8. Lógica de Interação do Modal de Cases & Lightbox Zoom
+       ========================================================================== */
+    const modal = document.getElementById('caseModal');
     const modalCloseBtn = document.getElementById('modalCloseBtn');
-    const modalMeta = document.getElementById('modalMeta');
+    const modalNumber = document.getElementById('modalNumber');
     const modalTitle = document.getElementById('modalTitle');
     const modalDesc = document.getElementById('modalDesc');
-    const modalTags = document.getElementById('modalTags');
     const modalArtsGrid = document.getElementById('modalArtsGrid');
 
-    const lightboxViewer = document.getElementById('lightboxViewer');
-    const lightboxImg = document.getElementById('lightboxImg');
+    projectCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const caseKey = card.getAttribute('data-case');
+        const data = caseData[caseKey];
+        if (!data) return;
 
-    function openCaseModal(caseKey) {
-      const data = caseData[caseKey];
-      if (!data) return;
+        modalNumber.textContent = `${data.number} // ${data.category.toUpperCase()}`;
+        modalTitle.textContent = data.title;
+        modalDesc.innerHTML = data.desc;
 
-      modalMeta.textContent = `${data.number} // ${data.category.toUpperCase()}`;
-      modalTitle.textContent = data.title;
-      modalDesc.innerHTML = data.desc;
-
-      modalTags.innerHTML = data.tags.map(tag => `<span class="tag-pill">${tag}</span>`).join('');
-
-      modalArtsGrid.innerHTML = data.images.map(img => `
-        <div class="modal-art-card" onclick="openLightbox('${img.src}')" title="Clique para ampliar em tela cheia">
-          <div class="art-img-wrapper">
+        modalArtsGrid.innerHTML = data.images.map(img => `
+          <div class="modal-art-card magnetic-target" onclick="openLightbox('${img.src}')" data-cursor-text="AMPLIAR">
             <img src="${img.src}" alt="${img.title}" loading="lazy" />
+            <div class="modal-art-caption">
+              <span>${img.title}</span>
+              <span style="color: var(--accent); font-weight: 700; float: right;">⤢ AMPLIAR</span>
+            </div>
           </div>
-          <div class="art-caption">
-            <span>${img.title}</span>
-            <span style="color: var(--accent); font-weight: 700;">⤢ AMPLIAR</span>
-          </div>
-        </div>
-      `).join('');
+        `).join('');
 
-      caseModal.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeCaseModal() {
-      caseModal.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-
-    function openLightbox(src) {
-      lightboxImg.src = src;
-      lightboxViewer.classList.add('active');
-    }
-
-    function closeLightbox() {
-      lightboxViewer.classList.remove('active');
-      lightboxImg.src = '';
-    }
-
-    // Event Listeners em todo o Card de Projeto (clicar em qualquer parte do card abre o Modal)
-    document.querySelectorAll('.project-card').forEach(card => {
-      card.addEventListener('click', (e) => {
-        const caseKey = card.getAttribute('data-case') || card.querySelector('.btn-view-case')?.getAttribute('data-case');
-        if (caseKey) {
-          openCaseModal(caseKey);
-        }
+        modal.classList.add('active');
+        lenis.stop();
       });
     });
 
-    modalCloseBtn.addEventListener('click', closeCaseModal);
+    modalCloseBtn.addEventListener('click', () => {
+      modal.classList.remove('active');
+      lenis.start();
+    });
 
-    caseModal.addEventListener('click', (e) => {
-      if (e.target === caseModal) {
-        closeCaseModal();
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.remove('active');
+        lenis.start();
       }
     });
 
-    lightboxViewer.addEventListener('click', closeLightbox);
+    /* Lightbox Zoom Handler */
+    const lightboxOverlay = document.getElementById('lightboxOverlay');
+    const lightboxImg = document.getElementById('lightboxImg');
 
-    // Tecla ESC fecha Lightbox ou Modal
+    window.openLightbox = function(src) {
+      lightboxImg.src = src;
+      lightboxOverlay.classList.add('active');
+    };
+
+    lightboxOverlay.addEventListener('click', () => {
+      lightboxOverlay.classList.remove('active');
+    });
+
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
-        if (lightboxViewer.classList.contains('active')) {
-          closeLightbox();
-        } else if (caseModal.classList.contains('active')) {
-          closeCaseModal();
-        }
+        modal.classList.remove('active');
+        lightboxOverlay.classList.remove('active');
+        lenis.start();
       }
     });
 
-    // Efeito Parallax Cinematográfico na Hero (Scroll + Mouse Depth)
-    const heroSection = document.querySelector('.hero-section');
-    const heroTitle = document.querySelector('.hero-title');
-    const heroAvatarImg = document.querySelector('.hero-avatar-bg img');
-    const heroMetaGrid = document.querySelector('.hero-meta-grid');
+    /* ==========================================================================
+       9. Mobile Hamburger Menu Toggle Script
+       ========================================================================== */
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const navLinks = document.getElementById('navLinks');
 
-    let mouseX = 0, mouseY = 0;
-    let targetMouseX = 0, targetMouseY = 0;
+    if (hamburgerBtn && navLinks) {
+      hamburgerBtn.addEventListener('click', () => {
+        hamburgerBtn.classList.toggle('active');
+        navLinks.classList.toggle('active');
+      });
 
-    // Rastreamento suave do mouse para profundidade tridimensional
-    window.addEventListener('mousemove', (e) => {
-      const { innerWidth, innerHeight } = window;
-      targetMouseX = ((e.clientX / innerWidth) - 0.5) * 20;
-      targetMouseY = ((e.clientY / innerHeight) - 0.5) * 15;
-    });
-
-    function updateParallax() {
-      // Interpolação suave do mouse
-      mouseX += (targetMouseX - mouseX) * 0.08;
-      mouseY += (targetMouseY - mouseY) * 0.08;
-
-      const scrollY = window.pageYOffset || document.documentElement.scrollTop;
-      const heroHeight = heroSection ? heroSection.offsetHeight : 700;
-      const isMobile = window.innerWidth <= 768;
-
-      // Executa os cálculos apenas enquanto a Hero estiver visível
-      if (scrollY <= heroHeight * 1.4) {
-        const progress = Math.min(scrollY / heroHeight, 1.2);
-
-        // 1. Título: No mobile não desloca para o lado para não sair da tela
-        if (heroTitle) {
-          const titleScale = isMobile ? 1 + (progress * 0.1) : 1 + (progress * 0.28);
-          const titleSlideX = isMobile ? (progress * 8) : ((progress * 80) + (mouseX * 0.4));
-          const titleSlideY = (progress * -20) + (mouseY * 0.3);
-          heroTitle.style.transform = `translate3d(${titleSlideX.toFixed(2)}px, ${titleSlideY.toFixed(2)}px, 0) scale(${titleScale.toFixed(3)})`;
-        }
-
-        // 2. Foto Avatar: Aumenta de tamanho com profundidade sem estourar limites
-        if (heroAvatarImg) {
-          const avatarScale = isMobile ? 1 + (progress * 0.25) : 1 + (progress * 0.48);
-          const avatarSlideX = isMobile ? 0 : ((progress * -25) - (mouseX * 0.7));
-          const avatarSlideY = (progress * 30) - (mouseY * 0.5);
-          const avatarOpacity = isMobile ? Math.min(0.28 + (progress * 0.2), 0.5) : Math.min(0.45 + (progress * 0.3), 0.75);
-          heroAvatarImg.style.transform = `translate3d(${avatarSlideX.toFixed(2)}px, ${avatarSlideY.toFixed(2)}px, 0) scale(${avatarScale.toFixed(3)})`;
-          heroAvatarImg.style.opacity = avatarOpacity.toFixed(2);
-        }
-
-        // 3. Grid de Metadados: Desliza sutilmente para baixo
-        if (heroMetaGrid) {
-          const metaSlideY = (progress * 30) + (mouseY * 0.2);
-          const metaOpacity = Math.max(1 - (progress * 0.85), 0.05);
-          heroMetaGrid.style.transform = `translate3d(0, ${metaSlideY.toFixed(2)}px, 0)`;
-          heroMetaGrid.style.opacity = metaOpacity.toFixed(2);
-        }
-      }
-
-      requestAnimationFrame(updateParallax);
+      navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          hamburgerBtn.classList.remove('active');
+          navLinks.classList.remove('active');
+        });
+      });
     }
 
-    requestAnimationFrame(updateParallax);
+    /* ==========================================================================
+       10. Back To Top Smooth Scroll Handler & Floating Button Toggle
+       ========================================================================== */
+    const backToTopBtn = document.getElementById('backToTopBtn');
+    const floatingBackToTopBtn = document.getElementById('floatingBackToTopBtn');
+
+    const handleScrollToTop = (e) => {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      if (typeof lenis !== 'undefined' && lenis) {
+        lenis.scrollTo(0, { duration: 1.2 });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    };
+
+    [backToTopBtn, floatingBackToTopBtn].forEach(btn => {
+      if (btn) {
+        btn.addEventListener('click', handleScrollToTop);
+        btn.addEventListener('touchend', handleScrollToTop);
+      }
+    });
+
+    if (floatingBackToTopBtn) {
+      const toggleFloatingBtn = () => {
+        if (window.scrollY > 250) {
+          floatingBackToTopBtn.classList.add('visible');
+        } else {
+          floatingBackToTopBtn.classList.remove('visible');
+        }
+      };
+      window.addEventListener('scroll', toggleFloatingBtn, { passive: true });
+      toggleFloatingBtn();
+    }
+
+    window.addEventListener('load', () => {
+      ScrollTrigger.refresh();
+    });
   </script>
 </body>
 </html>
