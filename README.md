@@ -11,8 +11,8 @@ Este repositório contém o código-fonte completo do website do portfólio, con
 - **Demonstração Online:** [danielleite.vercel.app](https://danielleite.vercel.app/)
 - **Currículo Oficial (PDF):** `Daniel_Rodrigo_Leite_Graphic_Designer_CV.pdf`
 - **Contato WhatsApp:** [(92) 99255-2746](https://api.whatsapp.com/send/?phone=5592992552746)
-- **LinkedIn:** [linkedin.com/in/daniel-rodrigo-leite](https://linkedin.com/in/daniel-rodrigo-leite)
-- **Behance:** [behance.net/danielrodrigo](https://behance.net/danielrodrigo)
+- **LinkedIn:** [linkedin.com/in/daniel-rodrigo-leite](https://www.linkedin.com/in/daniel-rodrigo-leite/)
+- **Behance:** [behance.net/danielrodrigo](https://www.behance.net/danielrodrigo)
 
 ---
 
